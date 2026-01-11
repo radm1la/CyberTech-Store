@@ -6,6 +6,9 @@
   --bord: #1e293b;
   --w: #f1f5f9;
   --lt: #64748b; /*light text*/
+  --body:#020617;
+  --np:#DB2777; /*neon pink*/
+  --sy:#CBA819;/*star yellow*/
 }
 
 * {
@@ -13,6 +16,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Space Grotesk", sans-serif;
+  letter-spacing: 1.4px;
 }
 
 body {

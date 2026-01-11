@@ -1,8 +1,257 @@
-main{
-    width: 100%;
-    background-color: black;
-    margin-top: 100px;
+@import url("main.css");
+
+main {
+  width: 100%;
+  margin-top: 150px;
+  display: flex;
 }
 
+.filter_area {
+  width: 20%;
+  box-shadow: 0 0 0 0.2px var(--nb);
+  background-color: var(--lbg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.filter_area p {
+  font-size: 14px;
+  color: var(--lt);
+}
+
+.filter_area .title {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  color: var(--nb);
+  font-size: 15px;
+}
+
+.filter_area .title i {
+  font-size: 7px;
+}
+
+.sub_area_cats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sub_area_cats select {
+  outline: none;
+  background: none;
+  border: 1px solid var(--bord);
+  background-color: var(--body);
+  color: var(--w);
+  padding: 10px 6px;
+  font-size: 12px;
+}
+
+.sub_area_cats select:focus {
+  border-color: var(--nb);
+}
+
+#brands {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+#brands .radio {
+  color: var(--lt);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radio label {
+  padding-bottom: 3.5px;
+}
+
+.sub_area_price {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sub_area_price .price_text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--lt);
+  font-size: 14px;
+}
+
+.sub_area_price .slider {
+  -webkit-appearance: none;
+  background-color: var(--lt);
+  height: 5px;
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: var(--nb);
+  cursor: pointer;
+}
+
+.sub_area_ratings{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ratings_box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:15px 20px;
+    background-color: var(--body);
+    border: 1px solid var(--bord);
+    font-size: 14px;
+}
+
+.all_btn{
+    color: var(--nb);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.star{
+    cursor: pointer;
+}
+
+.active_star{
+    color: var(--nb);
+}
+
+.show_rating{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#min_rat{
+    font-size: 12px;
+    color: var(--nb);
+}
+
+.show_rating p{
+    font-size: 10px;
+}
+
+/* PRODUCTS AREA */
+.products_area {
+  width: 80%;
+  padding-left: 50px;
+}
+
+.upper_part{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.upper_part h1{
+    font-size: 36px;
+}
+
+.upper_part p{
+    font-size: 12px;
+    background-color: var(--lbg);
+    padding: 10px 20px;
+    color: var(--lt);
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 10px;
+    align-items: flex-start;
+    background-color: var(--lbg);
+    padding: 20px;
+    border: 0.5px solid var(--bord);
+    border-bottom: 5px solid var(--bord);
+    transition: all 0.3s ease-out;
+}
+
+.card img{
+    width: 100%;
+    transition: all 0.4s ease-out;
+}
+
+.card h3{
+    font-size: 26px;
+}
+
+.card .item_rating{
+    font-size: 12px;
+}
+
+.card .field{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+}
+
+.card .field button{
+    background-color: var(--np);
+    clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
+  padding: 10px 30px;
+  border: none;
+  color: var(--w);
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease-out;
+}
+
+.card .field button:hover{
+    transform: rotate(-5deg);
+}
+
+.item_price{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.item_price p, span.rating{
+    color: var(--lt);
+}
+
+#price{
+    color: var(--nb);
+    text-shadow: 0 0 5px var(--nb);
+    font-size: 20px;
+}
+
+.card:hover{
+   border-bottom-color: var(--np);
+   transform: translateY(-5px);
+}
+
+.card:hover img{
+    transform: scale(1.1);
+}
+
+.colored{
+    color: var(--sy) ;
+}
 
 
