@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@300..700&display=swap");
+
+:root {
+  --lbg: #0f172a; /*light bg*/
+  --nb: #22d3ee; /*neon blue*/
+  --bord: #1e293b;
+  --w: #f1f5f9;
+  --lt: #64748b; /*light text*/
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+body {
+  height: 100vh;
+  position: relative;
+  background-color: #020617;
+  color: #fff;
+  padding-inline: 200px;
+}
+
+/*! NAVBAR*/
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 200px;
+  box-shadow: 0 0.2px 0 0 var(--nb);
+  background-color: #020617;
+}
+
+nav .icon_area {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+span.icon {
+  color: #22d3ee;
+  font-size: 24px;
+  padding: 8px;
+  box-shadow: 0 0 0 0.3px var(--nb);
+  background-color: var(--lbg);
+}
+
+nav .search_bar {
+  background-color: var(--lbg);
+  width: 500px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 5px 10px;
+  border: 1px solid var(--bord);
+}
+
+.search_bar:focus-within {
+  box-shadow: 0 0 0 0.5px var(--nb);
+}
+
+.search_bar:focus-within i {
+  color: var(--nb);
+}
+
+.search_bar input {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 5px;
+  width: 100%;
+  color: var(--w);
+}
+
+.search_bar input::placeholder,
+.search_bar i {
+  color: var(--lt);
+}
+
+nav .left_side {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.left_side button {
+  padding: 10px 30px;
+  background-color: #0f1322;
+  border: none;
+  color: var(--w);
+  border: 1px solid var(--bord);
+  font-size: 12px;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+}
+
+.left_side button:hover{
+    filter: brightness(1.5);
+}
+
+.left_side span {
+  font-size: 20px;
+  color: #f1f5f9;
+  background-color: var(--lbg);
+  padding: 12px;
+  border: 1px solid var(--bord);
+}
+
+nav span {
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+nav span.i_anim:hover {
+  color: var(--nb);
+  box-shadow: 0 0 0 1px var(--nb);
+}
