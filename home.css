@@ -315,3 +315,41 @@ span.rating {
   grid-auto-rows: 1fr;
   gap: 20px;
 }
+
+.pegination{
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  margin-bottom: 100px;
+  gap: 10px;
+}
+
+.pages{
+  display: flex;
+  gap: 10px;
+}
+
+.pegination button{
+  width: 40px;
+  height: 40px;
+  color: var(--lt);
+  background: var(--body);
+  border: 2px solid var(--bord);
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+.pegination button:disabled{
+  cursor: not-allowed;
+}
+
+.pages button.active_page, .pegination button:hover {
+  border-color: var(--nb);
+  box-shadow: 0 0 3px 1px var(--nb);
+  color: var(--nb);
+  font-weight: 700;
+}
+
+.item_star i.colored {
+  color: gold;
+}
