@@ -276,9 +276,31 @@ main {
   transition: all 0.2s ease-out;
 }
 
-.text_area .field button:hover {
-  transform: rotate(-5deg);
+.text_area .field button span {
+ cursor: pointer;
+ display: inline-block;
+ position: relative;
+ transition: 0.5s;
 }
+
+.text_area .field button span:after {
+ content: '»';
+ position: absolute;
+ opacity: 0;
+ top: 0;
+ right: -15px;
+ transition: 0.5s;
+}
+
+.text_area .field button:hover span {
+ padding-right: 15px;
+}
+
+.text_area .field button:hover span:after {
+ opacity: 1;
+ right: 0;
+}
+
 
 .item_price {
   display: flex;
@@ -369,3 +391,4 @@ span.rating {
   background-color: var(--bord);
   margin-bottom: 40px;
 }
+

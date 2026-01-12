@@ -182,7 +182,7 @@ function displayProducts(pr) {
                   ${beforePriceHTML}
                   <span id="price">$${pr.price.current}</span>
                 </div>
-                <button>AQCUIRE</button>
+                <button><span>AQCUIRE</span></button>
               </div>
             </div>
           </div>
