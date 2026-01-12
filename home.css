@@ -189,6 +189,7 @@ main {
   height:220px;
   position: relative;
   background-color: #fff;
+  overflow: hidden;
 }
 
 .img_area img {
