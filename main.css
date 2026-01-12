@@ -40,6 +40,7 @@ nav {
   padding: 20px 200px;
   box-shadow: 0 0.2px 0 0 var(--nb);
   background-color: #020617;
+  z-index: 9999999;
 }
 
 nav .icon_area {

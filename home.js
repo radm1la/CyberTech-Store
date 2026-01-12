@@ -7,6 +7,7 @@ const allBtn = document.querySelector(".all_btn");
 const minRatingShow = document.getElementById("min_rat");
 const productsCont = document.querySelector(".products_cont");
 const itemRatingStars = document.querySelectorAll(".item_star");
+const discounts = document.querySelectorAll(".discount");
 
 //!CATEGORIES
 fetch("https://api.everrest.educata.dev/shop/products/categories")
@@ -73,41 +74,74 @@ function resetRatings(rating = null) {
 
 allBtn.addEventListener("click", resetRatings);
 
-
 //!PRODUCTS
 fetch("https://api.everrest.educata.dev/shop/products/all")
-.then((answ) => answ.json())
-.then((data)=>{
+  .then((answ) => answ.json())
+  .then((data) => {
     console.log(data.products);
-    
-    
-    data.products.forEach((pr)=>{
-        displayProducts(pr);
-    })
-})
 
+    
 
-function displayProducts(pr){
-    productsCont.innerHTML += `
-        <div class="card">
-            <img src="" alt="">
-            <h3>title</h3>
-            <div class="item_rating">
-              <span class="item_star" data-value="1"><i class="fa-solid fa-star"></i></span>
-              <span class="item_star"  data-value="2"><i class="fa-solid fa-star"></i></span>
-              <span class="item_star"data-value="3"><i class="fa-solid fa-star"></i></span>
-              <span class="item_star" data-value="4"><i class="fa-solid fa-star"></i></span>
-              <span class="item_star" data-value="5"><i class="fa-solid fa-star"></i></span>
-              <span class="rating">()</span>
+    data.products.forEach((pr) => {
+      displayProducts(pr);
+    });
+  });
+
+function displayProducts(pr) {
+  let discountP = Number(pr.price.discountPercentage) > 0;
+
+  const discountHTML = discountP
+    ? `<div class="discount">${pr.price.discountPercentage}%</div>`
+    : "";
+
+     const beforePriceHTML = discountP > 0
+    ? `<span class="beforeDisc">$${pr.price.beforeDiscount}</span>`
+    : "";
+
+  productsCont.innerHTML += `
+            <div class="card">
+            <div class="img_area">
+              <img
+                src="${pr.thumbnail}"
+                alt=""
+              />
+              <div class="brand_name">${pr.brand}</div>
+              ${discountHTML}
             </div>
-           <div class="field">
-             <div class="item_price">
-              <p>price</p>
-              <span id="price">$444</span>
-             </div>
-            <button>AQCUIRE</button>
-           </div>
+            <div class="text_area">
+              <h3>${pr.title}</h3>
+              <div class="item_rating">
+                <span class="item_star" data-value="1"
+                  ><i class="fa-solid fa-star"></i
+                ></span>
+                <span class="item_star" data-value="2"
+                  ><i class="fa-solid fa-star"></i
+                ></span>
+                <span class="item_star" data-value="3"
+                  ><i class="fa-solid fa-star"></i
+                ></span>
+                <span class="item_star" data-value="4"
+                  ><i class="fa-solid fa-star"></i
+                ></span>
+                <span class="item_star" data-value="5"
+                  ><i class="fa-solid fa-star"></i
+                ></span>
+                <span class="rating">(${pr.rating.toFixed(1)})</span>
+              </div>
+              <div class="field">
+                <div class="item_price">
+                  <p>price</p>
+                  ${beforePriceHTML}
+                  <span id="price">$${pr.price.current}</span>
+                </div>
+                <button>AQCUIRE</button>
+              </div>
+            </div>
           </div>
-    `
+    `;
 }
+
+
+
+
 

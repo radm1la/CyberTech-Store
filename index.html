@@ -35,33 +35,50 @@
 
     <main>
       <div class="filter_area">
-        <p class="title"> <i class="fa-solid fa-square"></i> TERMINAL FILTER</p>
+        <p class="title"><i class="fa-solid fa-square"></i> TERMINAL FILTER</p>
         <div class="sub_area_cats">
           <p for="">CATEGORY</p>
           <select id="categories">
             <option value="0">All</option>
           </select>
         </div>
-        <div class="sub_area_brands" >
+        <div class="sub_area_brands">
           <p>BRAND</p>
           <div id="brands"></div>
         </div>
         <div class="sub_area_price">
           <div class="price_text">
-            <p>PRICE CAP</p
-            ><span>$ <span id="price_cap"></span></span>
+            <p>PRICE CAP</p>
+            <span>$ <span id="price_cap"></span></span>
           </div>
-          <input type="range" class="slider" min="0" max="5000" step="100" value="100"/>
+          <input
+            type="range"
+            class="slider"
+            min="0"
+            max="5000"
+            step="100"
+            value="100"
+          />
         </div>
         <div class="sub_area_ratings">
           <p>RATING</p>
           <div class="ratings_box">
             <div class="stars">
-              <span class="star" data-value="1"><i class="fa-solid fa-star"></i></span>
-              <span class="star"  data-value="2"><i class="fa-solid fa-star"></i></span>
-              <span class="star"data-value="3"><i class="fa-solid fa-star"></i></span>
-              <span class="star" data-value="4"><i class="fa-solid fa-star"></i></span>
-              <span class="star" data-value="5"><i class="fa-solid fa-star"></i></span>
+              <span class="star" data-value="1"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="star" data-value="2"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="star" data-value="3"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="star" data-value="4"
+                ><i class="fa-solid fa-star"></i
+              ></span>
+              <span class="star" data-value="5"
+                ><i class="fa-solid fa-star"></i
+              ></span>
             </div>
             <div class="all_btn">All</div>
           </div>
@@ -77,10 +94,22 @@
           <p><span id="prod_count"></span> NODES FOUND</p>
         </div>
         <div class="products_cont">
-          
+
+        </div>
+        <div class="pegination">
+          <button><i class="fa-solid fa-angle-left"></i></button>
+          <div class="pages">
+            <button>1</button>
+            <button>2</button>
+          </div>
+          <button><i class="fa-solid fa-angle-right"></i></button>
         </div>
       </div>
     </main>
+
+    <div class="test">
+      
+    </div>
 
     <script src="home.js"></script>
   </body>
