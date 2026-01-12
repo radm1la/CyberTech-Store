@@ -77,11 +77,12 @@ function resetRatings(rating = null) {
 
 allBtn.addEventListener("click", resetRatings);
 
-//!PRODUCTS & PAGINATION
+//!PRODUCTS & PAGINATION 
 let currentPage = 1;
 const pageSize = 6;
 let totalPages = 1;
 const maxVisiblePages = 3;
+
 
 function fetchProducts(page) {
   fetch(
@@ -164,9 +165,15 @@ function displayProducts(pr) {
             <div class="text_area">
               <h3>${pr.title}</h3>
               <div class="item_rating">
-                 ${[1,2,3,4,5].map(i => `
-    <i class="fa-solid fa-star ${i <= Math.floor(pr.rating) ? "colored" : ""}"></i>
-  `).join('')}
+                 ${[1, 2, 3, 4, 5]
+                   .map(
+                     (i) => `
+    <i class="fa-solid fa-star ${
+      i <= Math.floor(pr.rating) ? "colored" : ""
+    }"></i>
+  `
+                   )
+                   .join("")}
   <span class="rating">(${pr.rating.toFixed(1)})</span>
               </div>
               <div class="field">
@@ -181,3 +188,6 @@ function displayProducts(pr) {
           </div>
     `;
 }
+
+
+
