@@ -39,13 +39,28 @@ header{
 
 .filter_area {
   width: 20%;
-  height: 640px;
+  height: 700px;
   box-shadow: 0 0 0 0.2px var(--nb);
   background-color: var(--lbg);
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.btn_filter{
+  padding: 10px;
+  background-color: var(--nb);
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  transition: all 0.3s ease-out;
+  color: var(--w);
+}
+
+.btn_filter:hover{
+  box-shadow: 0 0 5px 5px var(--body), 0 0 15px 5px var(--nb), inset 0 0 10px 1px var(--body);
 }
 
 .filter_area p {
@@ -302,13 +317,19 @@ header{
   padding: 10px 30px;
   border: none;
   color: var(--w);
-  cursor: pointer;
   font-weight: bold;
   transition: all 0.2s ease-out;
+  cursor: pointer;
+}
+
+.card .field button.disabled {
+  background-color: #475569;
+  opacity: 0.5;
+  pointer-events: none;
+  cursor:not-allowed ;
 }
 
 .text_area .field button span {
- cursor: pointer;
  display: inline-block;
  position: relative;
  transition: 0.5s;
@@ -423,3 +444,13 @@ span.rating {
   margin-bottom: 40px;
 }
 
+.show_no_res{
+  text-align: center;
+  padding: 10px;
+  color: var(--nb);
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 24px;
+}

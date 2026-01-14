@@ -11,6 +11,7 @@ const discounts = document.querySelectorAll(".discount");
 const prevBtn = document.getElementById("prevBtn");
 const pagesCont = document.querySelector(".pages");
 const nextBtn = document.getElementById("nextBtn");
+const filterBtn = document.querySelector(".btn_filter");
 
 //!CATEGORIES
 fetch("https://api.everrest.educata.dev/shop/products/categories")
@@ -31,6 +32,12 @@ function showCategorie(cat) {
 fetch("https://api.everrest.educata.dev/shop/products/brands")
   .then((answ) => answ.json())
   .then((brands) => {
+     brandsCont.innerHTML += `
+      <div class="radio">
+        <input type="radio" name="brand" value="" id="brand_all" checked>
+        <label for="brand_all">All</label>
+      </div>
+    `;
     brands.forEach((brand) => {
       brandsCont.innerHTML += `
            <div class="radio">
@@ -55,11 +62,10 @@ stars.forEach((star) => {
     currentRating = Number(star.dataset.value);
 
     stars.forEach((s) => {
-      if (Number(s.dataset.value) <= currentRating) {
-        s.classList.add("active_star");
-      } else {
-        s.classList.remove("active_star");
-      }
+      s.classList.toggle(
+        "active_star",
+        Number(s.dataset.value) <= currentRating
+      );
     });
 
     minRatingShow.innerHTML = currentRating + ".0+";
@@ -72,17 +78,17 @@ function resetRatings(rating = null) {
   });
 
   currentRating = 0;
+  currentFilter.rating = null;
   minRatingShow.innerHTML = currentRating + ".0+";
 }
 
 allBtn.addEventListener("click", resetRatings);
 
-//!PRODUCTS & PAGINATION 
+//!PRODUCTS & PAGINATION
 let currentPage = 1;
 const pageSize = 6;
 let totalPages = 1;
 const maxVisiblePages = 3;
-
 
 function fetchProducts(page) {
   fetch(
@@ -108,7 +114,7 @@ function renderPagination() {
   prevBtn.onclick = () => {
     if (currentPage > 1) {
       currentPage--;
-      fetchProducts(currentPage);
+      fetchCurrentPage();
     }
   };
 
@@ -116,13 +122,12 @@ function renderPagination() {
   nextBtn.onclick = () => {
     if (currentPage < totalPages) {
       currentPage++;
-      fetchProducts(currentPage);
+      fetchCurrentPage();
     }
   };
 
   let startPage = Math.max(1, currentPage - 1);
   let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
   startPage = Math.max(1, endPage - maxVisiblePages + 1);
 
   for (let i = startPage; i <= endPage; i++) {
@@ -131,7 +136,7 @@ function renderPagination() {
     if (i === currentPage) btn.classList.add("active_page");
     btn.onclick = () => {
       currentPage = i;
-      fetchProducts(currentPage);
+      fetchCurrentPage();
     };
     pagesCont.appendChild(btn);
   }
@@ -150,6 +155,13 @@ function displayProducts(pr) {
     discountP > 0
       ? `<span class="beforeDisc">$${pr.price.beforeDiscount}</span>`
       : "";
+
+  let btnHTML = "";
+  if (pr.stock <= 0) {
+    btnHTML = `<button class="disabled"><span>SOLD OUT</span></button>`;
+  } else {
+    btnHTML = `<button><span>ACQUIRE</span></button>`;
+  }
 
   productsCont.innerHTML += `
             <div class="card">
@@ -182,12 +194,118 @@ function displayProducts(pr) {
                   ${beforePriceHTML}
                   <span id="price">$${pr.price.current}</span>
                 </div>
-                <button><span>AQCUIRE</span></button>
+                ${btnHTML}
               </div>
             </div>
           </div>
     `;
 }
 
+function fetchCurrentPage() {
+  if (currentMode === "all") {
+    fetchProducts(currentPage);
+  } else if (currentMode === "search") {
+    fetchSearchPr(currentSearch);
+  } else if (currentMode === "filter") {
+    fetchFilterPr(currentFilter);
+  }
+}
 
+//!SEARCH
+let currentMode = "all";
+let currentSearch = "";
+let currentFilter = {
+  category: null,
+  brand: null,
+  price: null,
+  rating: null,
+};
 
+const search = document.getElementById("search");
+
+search.addEventListener("keydown", () => {
+  currentPage = 1;
+  currentMode = "search";
+  currentSearch = search.value.trim();
+  fetchCurrentPage();
+});
+
+function fetchSearchPr(searchInp) {
+  fetch(
+    `https://api.everrest.educata.dev/shop/products/search?page_index=${currentPage}&page_size=${pageSize}&keywords=${searchInp}`
+  )
+    .then((answ) => answ.json())
+    .then((data) => {
+      totalPages = Math.ceil(data.total / pageSize);
+      productsCont.innerHTML = "";
+
+      if (data.products.length == 0) {
+        noRes();
+      } else {
+        data.products.forEach((pr) => displayProducts(pr));
+      }
+
+      document.getElementById("prod_count").textContent = data.total;
+
+      renderPagination();
+    });
+}
+
+function noRes() {
+  productsCont.innerHTML = `<h1 class="show_no_res">NO NODES FOUND <i class="fa-solid fa-folder-open"></i></h1>`;
+}
+
+//!FILTER
+filterBtn.addEventListener("click", () => {
+  currentPage = 1;
+  currentMode = "filter";
+
+  currentFilter.category = Number(categories.value) || null;
+
+  const selectedBrand = brandsCont.querySelector("input[name='brand']:checked");
+  currentFilter.brand = selectedBrand && selectedBrand.value ? selectedBrand.value : null;
+
+  currentFilter.price = Number(priceSlider.value) || null;
+
+  currentFilter.rating = currentRating > 0 ? currentRating : null;
+
+  fetchCurrentPage();
+});
+
+function fetchFilterPr(filter) {
+  let url = `https://api.everrest.educata.dev/shop/products/search?page_index=${currentPage}&page_size=${pageSize}`;
+
+  if (filter.category && filter.category !== 0) {
+    url += `&category_id=${filter.category}`;
+  }
+
+  if (filter.brand) {
+    url += `&brand=${encodeURIComponent(filter.brand)}`;
+  }
+
+  if (filter.price && filter.price > 0) {
+    url += `&price_max=${filter.price}`;
+  }
+
+  if (filter.rating && filter.rating > 0) {
+    url += `&rating=${filter.rating}`;
+  }
+  console.log(url);
+  
+
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      totalPages = Math.ceil(data.total / pageSize);
+      productsCont.innerHTML = "";
+
+      if (!data.products || data.products.length === 0) {
+        noRes();
+      } else {
+        data.products.forEach((pr) => displayProducts(pr));
+      }
+
+      document.getElementById("prod_count").textContent = data.total;
+      renderPagination();
+    });
+}
