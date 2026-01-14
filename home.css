@@ -3,7 +3,7 @@
 main {
   width: 100%;
   display: flex;
-  margin-top: 100px;
+  margin-top: 120px;
 }
 
 header{
@@ -39,7 +39,7 @@ header{
 
 .filter_area {
   width: 20%;
-  height: 700px;
+  height: 720px;
   box-shadow: 0 0 0 0.2px var(--nb);
   background-color: var(--lbg);
   padding: 20px;
@@ -60,7 +60,7 @@ header{
 }
 
 .btn_filter:hover{
-  box-shadow: 0 0 5px 5px var(--body), 0 0 15px 5px var(--nb), inset 0 0 10px 1px var(--body);
+   filter: brightness(0.8);
 }
 
 .filter_area p {

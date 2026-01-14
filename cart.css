@@ -1,0 +1,38 @@
+@import url("main.css");
+
+main{
+    margin-top: 120px;
+}
+
+header {
+    width: 100%;
+}
+
+header h1{
+    font-size: 50px;
+    color: var(--w);
+}
+
+header p{
+    color: var(--lt);
+}
+
+.line{
+    content: "";
+    width: 100%;
+    height: 0.5px;
+    background-color: var(--bord);
+    margin-top: 30px;
+}
+
+
+.cart_container{
+    margin-top: 50px;
+    width: 100%;
+    min-height: 400px;
+    border: 1px dashed var(--bord);
+    background-color: #04081e;
+}
+
+
+

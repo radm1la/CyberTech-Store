@@ -160,7 +160,7 @@ function displayProducts(pr) {
   if (pr.stock <= 0) {
     btnHTML = `<button class="disabled"><span>SOLD OUT</span></button>`;
   } else {
-    btnHTML = `<button><span>ACQUIRE</span></button>`;
+    btnHTML = `<button onclick="addToCart(${pr})"><span>ACQUIRE</span></button>`;
   }
 
   productsCont.innerHTML += `
@@ -309,3 +309,6 @@ function fetchFilterPr(filter) {
       renderPagination();
     });
 }
+
+
+//!CART LOGIC
