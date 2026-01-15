@@ -141,7 +141,6 @@ nav span.i_anim:hover {
 
 .auth_window {
   background: var(--lbg);
-  width: 400px;
   padding: 30px;
   position: relative;
 }
@@ -289,4 +288,57 @@ input[type="number"]::-webkit-outer-spin-button {
 
 #btn_auth {
   font-size: 16px;
+}
+
+#loginForm{
+  width: 370px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#signupForm {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.signup_container {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+}
+
+.inputs_column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth_window {
+  background: var(--lbg);
+  padding: 30px;
+  position: relative;
+}
+
+.input_area {
+  width: 100%;
+  background-color: var(--body);
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  border: 1px solid var(--bord);
+  transition: all 0.2s ease;
+}
+
+.input_area:focus-within {
+  border-color: var(--nb);
+  box-shadow: 0 0 0 1px var(--nb);
+}
+
+.input_area:focus-within i {
+  color: var(--nb);
 }

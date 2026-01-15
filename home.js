@@ -1,3 +1,4 @@
+//homejs
 const categories = document.getElementById("categories");
 const brandsCont = document.getElementById("brands");
 const priceCap = document.getElementById("price_cap");
@@ -32,17 +33,18 @@ function showCategorie(cat) {
 fetch("https://api.everrest.educata.dev/shop/products/brands")
   .then((answ) => answ.json())
   .then((brands) => {
-     brandsCont.innerHTML += `
+    brandsCont.innerHTML = `
       <div class="radio">
         <input type="radio" name="brand" value="" id="brand_all" checked>
         <label for="brand_all">All</label>
       </div>
     `;
     brands.forEach((brand) => {
+      const brandId = `brand_${brand.replace(/\s+/g, "_")}`;
       brandsCont.innerHTML += `
            <div class="radio">
-             <input type="radio" name="brand" value="${brand}">
-             <label for="${brand}">${brand}</label>
+             <input type="radio" name="brand" value="${brand}" id="${brandId}">
+             <label for="${brandId}">${brand}</label>
            </div>
         `;
     });
@@ -160,7 +162,7 @@ function displayProducts(pr) {
   if (pr.stock <= 0) {
     btnHTML = `<button class="disabled"><span>SOLD OUT</span></button>`;
   } else {
-    btnHTML = `<button onclick="addToCart(${pr})"><span>ACQUIRE</span></button>`;
+    btnHTML = `<button onclick="addToCart('${pr._id}')"><span>ACQUIRE</span></button>`;
   }
 
   productsCont.innerHTML += `
@@ -263,7 +265,8 @@ filterBtn.addEventListener("click", () => {
   currentFilter.category = Number(categories.value) || null;
 
   const selectedBrand = brandsCont.querySelector("input[name='brand']:checked");
-  currentFilter.brand = selectedBrand && selectedBrand.value ? selectedBrand.value : null;
+  currentFilter.brand =
+    selectedBrand && selectedBrand.value ? selectedBrand.value : null;
 
   currentFilter.price = Number(priceSlider.value) || null;
 
@@ -291,7 +294,6 @@ function fetchFilterPr(filter) {
     url += `&rating=${filter.rating}`;
   }
   console.log(url);
-  
 
   fetch(url)
     .then((res) => res.json())
@@ -310,5 +312,58 @@ function fetchFilterPr(filter) {
     });
 }
 
+//!cart
+function addToCart(id) {
+  let userToken = Cookies.get("user");
+  if (!userToken) {
+    showMsg();
+  } else {
+    let prodInfo = {
+      id: id,
+      quantity: 1,
+    };
 
-//!CART LOGIC
+    fetch("https://api.everrest.educata.dev/auth",{
+      method:"GET",
+      headers:{
+         accept: "application/json",
+         Authorization: `Bearer ${userToken}`
+      }
+    })
+    .then((answ)=>answ.json())
+    .then((data)=>{
+      fetch("https://api.everrest.educata.dev/shop/cart/product",{
+        method: data.cartID ? 'PATCH' : 'POST',
+        headers:{
+          accept: "application/json",
+                Authorization: `Bearer ${userToken}`,
+                "Content-Type": "application/json"
+        },
+        body:JSON.stringify(prodInfo)
+      }).then((answ)=>answ.json())
+      .then((data)=>{
+      })
+    })
+
+  }
+}
+
+function showMsg() {
+  const msgBox = document.createElement("div");
+  msgBox.className = "msg_box";
+  msgBox.innerHTML = `
+        <div class="msg_box_cont">
+          <span class="close_auth"><i class="fa-solid fa-x"></i></span>
+          <h1>AUTHENTICATE TO ACQUIRE THE ITEM</h1>
+        </div>
+   `;
+
+  document.body.style.overflow = "hidden";
+
+  document.body.appendChild(msgBox);
+
+  document.querySelector(".close_auth").onclick = () => {
+    msgBox.remove();
+    document.body.style.overflow = "";
+  };
+}

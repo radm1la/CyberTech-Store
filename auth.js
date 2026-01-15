@@ -1,8 +1,24 @@
+//auth.js
 const btnAuth = document.getElementById("btn_auth");
 const leftSideOfNav = document.querySelector(".left_side");
 
+btnAuth.addEventListener("click", () => {
+  const userToken = Cookies.get("user");
+  if (!userToken) {
+    openAuth();
+  }
+});
+
 function checkForUser() {
   const userToken = Cookies.get("user");
+
+  btnAuth.disabled = false;
+  btnAuth.style.color = "";
+  btnAuth.innerHTML = "AUTHENTICATE";
+
+  const prevSignout = document.getElementById("signout_btn");
+  if (prevSignout) prevSignout.remove();
+
   if (userToken) {
     fetch("https://api.everrest.educata.dev/auth", {
       method: "GET",
@@ -14,32 +30,31 @@ function checkForUser() {
       .then((answ) => answ.json())
       .then((userData) => {
         if (userData.verified) {
+          const authForm = document.querySelector(".auth_form");
+          if (authForm) authForm.remove();
           btnAuth.disabled = true;
           btnAuth.innerHTML = `<i class="fa-solid fa-user"></i> ${userData.firstName}`;
-          leftSideOfNav.innerHTML += `<span class="i_anim" id="signout_btn"
-          ><i class="fa-solid fa-right-from-bracket"></i></span>`;
-        } else {
-          btnAuth.innerHTML =
-            '<i class="fa-solid fa-triangle-exclamation"></i> VERIFY EMAIL';
-          btnAuth.style.color = "#fbbf24";
+
+          const signoutBtn = document.createElement("span");
+          signoutBtn.className = "i_anim";
+          signoutBtn.id = "signout_btn";
+          signoutBtn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i>`;
+          leftSideOfNav.appendChild(signoutBtn);
+
+          signoutBtn.addEventListener("click", handleSignOut);
         }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch user:", err);
       });
-  } else {
-    btnAuth.innerText = "AUTHENTICATE";
   }
 }
 
 checkForUser();
 
-btnAuth.addEventListener("click", () => {
-  const userToken = Cookies.get("user");
-  if (!userToken) {
-    openAuth();
-  }
-});
-
-function addSignOut() {
-  nav.innerHTML += `<i class="fa-solid fa-door-open"></i>`;
+function handleSignOut() {
+  Cookies.remove("user");
+  checkForUser();
 }
 
 function openAuth() {
@@ -100,53 +115,58 @@ function showSignup() {
     <p class="auth_error" id="signupError" style="display:none"></p>
 
     <form id="signupForm">
-      <div class="input_area">
-        <i class="fa-solid fa-id-card"></i>
-        <input type="text" id="firstName" placeholder="FIRST NAME" name="firstName" required/>
-      </div>
-      <div class="input_area">
-        <i class="fa-solid fa-user"></i>
-        <input type="text" id="lastName" placeholder="LAST NAME" name="lastName" required/>
-      </div>
-      <div class="input_area">
-        <i class="fa-solid fa-hashtag"></i>
-        <input type="number" id="age" placeholder="AGE" name="age" required/>
-      </div>
+      <div class="signup_container">
+        <div class="inputs_column">
+          <div class="input_area">
+            <i class="fa-solid fa-id-card"></i>
+            <input type="text" id="firstName" placeholder="FIRST NAME" name="firstName" required/>
+          </div>
+          <div class="input_area">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" id="lastName" placeholder="LAST NAME" name="lastName" required/>
+          </div>
+          <div class="input_area">
+            <i class="fa-solid fa-hashtag"></i>
+            <input type="number" id="age" placeholder="AGE" name="age" required/>
+          </div>
+          <div class="input_area gender_area">
+            <i class="fa-solid fa-chevron-down"></i>
+            <i class="fa-solid fa-venus-mars"></i>
+            <select id="gender" name="gender" required>
+              <option value="">SELECT GENDER</option>
+              <option value="MALE">MALE</option>
+              <option value="FEMALE">FEMALE</option>
+              <option value="OTHER">OTHER</option>
+            </select>
+          </div>
+          <div class="input_area">
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" id="signup_email" placeholder="EMAIL" name="email" required/>
+          </div>
+        </div>
 
-      <div class="input_area gender_area">
-        <i class="fa-solid fa-chevron-down"></i>
-        <i class="fa-solid fa-venus-mars"></i>
-        <select id="gender" name="gender" required>
-            <option value="">SELECT GENDER</option>
-            <option value="MALE">MALE</option>
-            <option value="FEMALE">FEMALE</option>
-            <option value="OTHER">OTHER</option>
-        </select>
-      </div>
-
-      <div class="input_area">
-        <i class="fa-solid fa-envelope"></i>
-        <input type="email" id="signup_email" placeholder="EMAIL" name="email" required/>
-      </div>
-      <div class="input_area">
-        <i class="fa-solid fa-phone"></i>
-        <input type="text" id="phone" placeholder="PHONE" name="phone" required/>
-      </div>
-      <div class="input_area">
-        <i class="fa-solid fa-map-pin"></i>
-        <input type="text" id="address" placeholder="ADDRESS" name="address" required/>
-      </div>
-      <div class="input_area">
-        <i class="fa-solid fa-location-dot"></i>
-        <input type="text" id="zipcode" placeholder="ZIPCODE" name="zipcode" required/>
-      </div>
-      <div class="input_area">
-        <i class="fa-solid fa-image"></i>
-        <input type="text" id="avatar" placeholder="AVATAR URL" name="avatar"/>
-      </div>
-      <div class="input_area">
-        <i class="fa-solid fa-lock"></i>
-        <input type="password" id="signup_password" placeholder="PASSWORD" name="password" required/>
+        <div class="inputs_column">
+          <div class="input_area">
+            <i class="fa-solid fa-phone"></i>
+            <input type="text" id="phone" placeholder="PHONE" name="phone" required/>
+          </div>
+          <div class="input_area">
+            <i class="fa-solid fa-map-pin"></i>
+            <input type="text" id="address" placeholder="ADDRESS" name="address" required/>
+          </div>
+          <div class="input_area">
+            <i class="fa-solid fa-location-dot"></i>
+            <input type="text" id="zipcode" placeholder="ZIPCODE" name="zipcode" required/>
+          </div>
+          <div class="input_area">
+            <i class="fa-solid fa-image"></i>
+            <input type="text" id="avatar" placeholder="AVATAR URL" name="avatar"/>
+          </div>
+          <div class="input_area">
+            <i class="fa-solid fa-lock"></i>
+            <input type="text" id="signup_password" placeholder="PASSWORD" name="password" required/>
+          </div>
+        </div>
       </div>
       
       <button type="submit" id="signupBtn">REGISTER NOW</button>
@@ -189,28 +209,41 @@ function handleLogin(e) {
 
       if (data.access_token) {
         Cookies.set("user", data.access_token);
+        
+        return fetch("https://api.everrest.educata.dev/auth", {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${data.access_token}`,
+          },
+        }).then(res => res.json());
+      } else {
+        throw new Error(data.error || "INVALID EMAIL OR PASSWORD.");
+      }
+    })
+    .then((userData) => {
+      if (userData.verified) {
         errorBox.style.color = "lime";
         errorBox.innerHTML = "LOGIN SUCCESSFUL!";
         errorBox.style.display = "block";
 
         setTimeout(() => {
           checkForUser();
-          document.querySelector(".auth_form").remove();
         }, 1000);
       } else {
-        errorBox.innerHTML = data.error || "INVALID EMAIL OR PASSWORD.";
+        errorBox.style.color = "orange";
+        errorBox.innerHTML = "PLEASE VERIFY YOUR EMAIL BEFORE LOGGING IN.";
         errorBox.style.display = "block";
-        errorBox.style.color = "red";
+        // Cookies.remove("user"); 
       }
     })
     .catch((err) => {
       errorBox.style.color = "red";
-      errorBox.innerHTML = "CONNECTION ERROR. TRY AGAIN.";
+      errorBox.innerHTML = err.message || "CONNECTION ERROR. TRY AGAIN.";
       errorBox.style.display = "block";
       console.error(err);
     });
 }
-
 function handleSignup(e) {
   e.preventDefault();
 
@@ -240,9 +273,8 @@ function handleSignup(e) {
         errorBox.style.display = "block";
 
         setTimeout(() => {
-          document.querySelector(".auth_form").remove();
           showLogin();
-        }, 2000);
+        }, 1000);
       } else if (data.error) {
         let message = "SIGNUP FAILED. CHECK YOUR INPUTS.";
 
@@ -268,3 +300,4 @@ function handleSignup(e) {
       console.error(err);
     });
 }
+
