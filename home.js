@@ -171,7 +171,7 @@ function displayProducts(pr) {
               <img
                 src="${pr.thumbnail}"
                 alt=""
-                onerror="this.onerror=null; this.src='https://imgstore.alta.ge/images/400/141/141727_8819_1.webp';"
+                onerror="this.onerror=null; this.src='backupImg.jpg';"
               />
               <div class="brand_name">${pr.brand}</div>
               ${discountHTML}
@@ -293,7 +293,6 @@ function fetchFilterPr(filter) {
   if (filter.rating && filter.rating > 0) {
     url += `&rating=${filter.rating}`;
   }
-  console.log(url);
 
   fetch(url)
     .then((res) => res.json())

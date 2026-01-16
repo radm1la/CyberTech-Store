@@ -55,6 +55,8 @@ checkForUser();
 function handleSignOut() {
   Cookies.remove("user");
   checkForUser();
+
+  localStorage.setItem("auth_changed", Date.now());
 }
 
 function openAuth() {
@@ -205,8 +207,6 @@ function handleLogin(e) {
   })
     .then((answ) => answ.json())
     .then((data) => {
-      console.log(data);
-
       if (data.access_token) {
         Cookies.set("user", data.access_token);
         
@@ -265,8 +265,6 @@ function handleSignup(e) {
   })
     .then((pasuxi) => pasuxi.json())
     .then((data) => {
-      console.log(data);
-
       if (data._id) {
         errorBox.style.color = "lime";
         errorBox.textContent = "ACCOUNT CREATED SUCCESSFULLY!.";
