@@ -163,12 +163,13 @@ header p {
   font-weight: bold;
 }
 
-.pr_bef_disc{
+.price_field span.pr_bef_disc{
   font-size: 10px;
   color: var(--lt);
   text-decoration: line-through;
   text-decoration-color: red;
 }
+
 
 .divider {
   width: 100%;
@@ -258,3 +259,4 @@ header p {
 .remove_pr:hover{
   color: rgb(231, 99, 99);
 }
+
