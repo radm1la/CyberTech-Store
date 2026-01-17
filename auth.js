@@ -29,7 +29,7 @@ function checkForUser() {
       },
     })
       .then((answ) => answ.json())
-      .then((userData) => {
+      .then((userData) => {        
         if (userData.verified) {
           const authForm = document.querySelector(".auth_form");
           if (authForm) authForm.remove();
@@ -220,6 +220,7 @@ function handleLogin(e) {
   })
     .then((answ) => answ.json())
     .then((data) => {
+      
       if (data.access_token) {
         Cookies.set("user", data.access_token);
 
@@ -235,6 +236,7 @@ function handleLogin(e) {
       }
     })
     .then((userData) => {
+      
       if (userData.verified) {
         errorBox.style.color = "lime";
         errorBox.innerHTML = "LOGIN SUCCESSFUL!";
