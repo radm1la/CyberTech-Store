@@ -65,9 +65,11 @@ checkForUser();
 
 function handleSignOut() {
   Cookies.remove("user");
+  if(window.location.pathname.includes('cart.html')){
+    window.location.href = "index.html"
+    return;
+  }
   checkForUser();
-
-  localStorage.setItem("auth_changed", Date.now());
 }
 
 function openAuth() {

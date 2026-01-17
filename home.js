@@ -66,7 +66,7 @@ stars.forEach((star) => {
     stars.forEach((s) => {
       s.classList.toggle(
         "active_star",
-        Number(s.dataset.value) <= currentRating
+        Number(s.dataset.value) <= currentRating,
       );
     });
 
@@ -94,7 +94,7 @@ const maxVisiblePages = 3;
 
 function fetchProducts(page) {
   fetch(
-    `https://api.everrest.educata.dev/shop/products/all?page_index=${page}&page_size=${pageSize}`
+    `https://api.everrest.educata.dev/shop/products/all?page_index=${page}&page_size=${pageSize}`,
   )
     .then((res) => res.json())
     .then((data) => {
@@ -185,7 +185,7 @@ function displayProducts(pr) {
     <i class="fa-solid fa-star ${
       i <= Math.floor(pr.rating) ? "colored" : ""
     }"></i>
-  `
+  `,
                    )
                    .join("")}
   <span class="rating">(${pr.rating.toFixed(1)})</span>
@@ -234,7 +234,7 @@ search.addEventListener("keydown", () => {
 
 function fetchSearchPr(searchInp) {
   fetch(
-    `https://api.everrest.educata.dev/shop/products/search?page_index=${currentPage}&page_size=${pageSize}&keywords=${searchInp}`
+    `https://api.everrest.educata.dev/shop/products/search?page_index=${currentPage}&page_size=${pageSize}&keywords=${searchInp}`,
   )
     .then((answ) => answ.json())
     .then((data) => {
@@ -317,36 +317,52 @@ function addToCart(id) {
   if (!userToken) {
     showMsg();
   } else {
-    let prodInfo = {
-      id: id,
-      quantity: 1,
-    };
-
-    fetch("https://api.everrest.educata.dev/auth",{
-      method:"GET",
-      headers:{
-         accept: "application/json",
-         Authorization: `Bearer ${userToken}`
+    fetch("https://api.everrest.educata.dev/shop/cart", {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${userToken}`
       }
     })
-    .then((answ)=>answ.json())
-    .then((data)=>{
-      fetch("https://api.everrest.educata.dev/shop/cart/product",{
-        method: data.cartID ? 'PATCH' : 'POST',
-        headers:{
-          accept: "application/json",
-                Authorization: `Bearer ${userToken}`,
-                "Content-Type": "application/json"
-        },
-        body:JSON.stringify(prodInfo)
-      }).then((answ)=>answ.json())
-      .then((data)=>{
-      })
-    })
+    .then((answ) => answ.json())
+    .then((cartData) => {
+      let existingProduct = cartData.products?.find(item => item.productId === id);
+      let newQuantity = existingProduct ? existingProduct.quantity + 1 : 1;
+      
+      let prodInfo = {
+        id: id,
+        quantity: newQuantity,  
+      };
 
+      return fetch("https://api.everrest.educata.dev/auth", {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${userToken}`
+        }
+      })
+      .then((answ) => answ.json())
+      .then((data) => {
+        return fetch("https://api.everrest.educata.dev/shop/cart/product", {
+          method: data.cartID ? 'PATCH' : 'POST',
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(prodInfo)
+        });
+      })
+      .then((answ) => answ.json())
+      .then((data) => {
+        // -------
+      });
+    })
+    .catch((error) => {
+      console.error("Error adding to cart:", error);
+    });
   }
 }
-
 function showMsg() {
   const msgBox = document.createElement("div");
   msgBox.className = "msg_box";
