@@ -11,6 +11,7 @@ btnAuth.addEventListener("click", () => {
 
 function checkForUser() {
   const userToken = Cookies.get("user");
+  const btnCart = document.getElementById("btn_cart");
 
   btnAuth.disabled = false;
   btnAuth.style.color = "";
@@ -35,6 +36,12 @@ function checkForUser() {
           btnAuth.disabled = true;
           btnAuth.innerHTML = `<i class="fa-solid fa-user"></i> ${userData.firstName}`;
 
+          if (!window.location.pathname.includes("cart.html")) {
+            btnCart.disabled = false;
+            btnCart.style.opacity = "1";
+            btnCart.style.pointerEvents = "auto";
+          }
+
           const signoutBtn = document.createElement("span");
           signoutBtn.className = "i_anim";
           signoutBtn.id = "signout_btn";
@@ -47,6 +54,10 @@ function checkForUser() {
       .catch((err) => {
         console.error("Failed to fetch user:", err);
       });
+  } else {
+    btnCart.disabled = true;
+    btnCart.style.opacity = "0.5";
+    btnCart.style.pointerEvents = "none";
   }
 }
 
@@ -209,14 +220,14 @@ function handleLogin(e) {
     .then((data) => {
       if (data.access_token) {
         Cookies.set("user", data.access_token);
-        
+
         return fetch("https://api.everrest.educata.dev/auth", {
           method: "GET",
           headers: {
             accept: "application/json",
             Authorization: `Bearer ${data.access_token}`,
           },
-        }).then(res => res.json());
+        }).then((res) => res.json());
       } else {
         throw new Error(data.error || "INVALID EMAIL OR PASSWORD.");
       }
@@ -234,7 +245,7 @@ function handleLogin(e) {
         errorBox.style.color = "orange";
         errorBox.innerHTML = "PLEASE VERIFY YOUR EMAIL BEFORE LOGGING IN.";
         errorBox.style.display = "block";
-        // Cookies.remove("user"); 
+        //Cookies.remove("user");
       }
     })
     .catch((err) => {
@@ -298,4 +309,3 @@ function handleSignup(e) {
       console.error(err);
     });
 }
-
