@@ -355,7 +355,6 @@ function addToCart(id) {
       })
       .then((answ) => answ.json())
       .then((data) => {
-        // -------
       });
     })
     .catch((error) => {

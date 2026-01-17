@@ -23,10 +23,9 @@ function loadCart() {
     .then((answ) => answ.json())
     .then((data) => {
       console.log(data);
-      
-      if (data.error) {
-        cartContainer.appendChild(msgBox);
-        msgBox.innerHTML = `<h1><i class="fa-solid fa-box-open"></i>Your cart is empty</h1>`;
+
+      if (data.error || !data.products || data.products.length === 0) {
+        showEmptyCart();
       } else {
         data.products.forEach((item) => {
           fetch(
@@ -42,6 +41,19 @@ function loadCart() {
 }
 
 loadCart();
+
+function checkEmptyCart() {
+  const cards = cartContainer.querySelectorAll(".card");
+  if (cards.length === 0) {
+    showEmptyCart();
+  }
+}
+
+function showEmptyCart() {
+  cartContainer.innerHTML = "";
+  cartContainer.appendChild(msgBox);
+  msgBox.innerHTML = `<h1><i class="fa-solid fa-box-open"></i>Your cart is empty</h1>`;
+}
 
 function disableElem(elem) {
   elem.disabled = true;
@@ -145,11 +157,13 @@ function displayProduct(pr, item) {
       quantity--;
       updateUI();
       updateCart(pr._id, quantity);
+    }else if(quantity == 1){
+      removeProduct(pr._id,card);
     }
   });
 
   removePrBtn.addEventListener("click", () => {
-    removeProduct(pr._id,card);
+    removeProduct(pr._id, card);
     updateUI();
   });
 }
@@ -176,7 +190,7 @@ function updateCart(id, Nquantity) {
     });
 }
 
-function removeProduct(id,card) {
+function removeProduct(id, card) {
   fetch("https://api.everrest.educata.dev/shop/cart/product", {
     method: "DELETE",
     headers: {
@@ -186,18 +200,12 @@ function removeProduct(id,card) {
     },
     body: JSON.stringify({
       id: id,
-    })
+    }),
   })
     .then((answ) => answ.json())
     .then((data) => {
       card.remove();
-
-       if (cartContainer.querySelectorAll('.card').length == 0) {
-        console.log(cartContainer.querySelectorAll('.card').length);
-        
-        cartContainer.appendChild(msgBox);
-        msgBox.innerHTML = `<h1><i class="fa-solid fa-box-open"></i>Your cart is empty</h1>`;
-      }
+      checkEmptyCart();
     })
     .catch((error) => {
       console.error("Error removing", error);

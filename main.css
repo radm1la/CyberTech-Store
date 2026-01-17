@@ -118,13 +118,6 @@ nav .left_side {
   border: 1px solid var(--bord);
 }
 
-.left_side span.pr_count{
-  border: none;
-  background-color: none;
-  padding: 0;
-  margin-left: 10px;
-}
-
 nav span {
   cursor: pointer;
   transition: all 0.2s ease-out;
