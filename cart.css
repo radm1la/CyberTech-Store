@@ -157,6 +157,13 @@ header p {
   text-transform: uppercase;
 }
 
+.pr_bef_disc{
+  font-size: 10px;
+  color: var(--lt);
+  text-decoration: line-through;
+  text-decoration-color: red;
+}
+
 .price_field span {
   color: var(--w);
   font-size: 16px;
