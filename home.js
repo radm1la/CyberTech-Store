@@ -146,6 +146,7 @@ function renderPagination() {
 
 fetchProducts(currentPage);
 
+//!card html
 function displayProducts(pr) {
   let discountP = Number(pr.price.discountPercentage) > 0;
 
@@ -162,11 +163,11 @@ function displayProducts(pr) {
   if (pr.stock <= 0) {
     btnHTML = `<button class="disabled"><span>SOLD OUT</span></button>`;
   } else {
-    btnHTML = `<button onclick="addToCart('${pr._id}',this)"><span>ACQUIRE</span></button>`;
+    btnHTML = `<button onclick="event.stopPropagation(); addToCart('${pr._id}',this)"><span>ACQUIRE</span></button>`;
   }
 
   productsCont.innerHTML += `
-            <div class="card">
+            <div class="card" onclick="goToDetailsPage('${pr._id}')">
             <div class="img_area">
               <img
                 src="${pr.thumbnail}"
@@ -406,3 +407,9 @@ function showAdded(btn) {
   }, 1000);
 }
 
+
+//!switching to details' page
+function goToDetailsPage(prId){
+  sessionStorage.setItem("prId",prId);
+  window.location.href = 'details.html';
+}

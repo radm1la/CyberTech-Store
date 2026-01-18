@@ -9,6 +9,7 @@ btnAuth.addEventListener("click", () => {
   }
 });
 
+//!checking for user
 function checkForUser() {
   const userToken = Cookies.get("user");
   const btnCart = document.getElementById("btn_cart");
@@ -62,7 +63,7 @@ function checkForUser() {
 }
 
 checkForUser();
-
+//!signout
 function handleSignOut() {
   Cookies.remove("user");
   if(window.location.pathname.includes('cart.html')){
@@ -88,7 +89,7 @@ function openAuth() {
 
   showLogin();
 }
-
+//!show login
 function showLogin() {
   const authContent = document.querySelector(".auth_content");
 
@@ -120,7 +121,7 @@ function showLogin() {
 
   document.getElementById("loginForm").addEventListener("submit", handleLogin);
 }
-
+//!show sign up
 function showSignup() {
   const content = document.querySelector(".auth_content");
 
@@ -200,6 +201,7 @@ function showSignup() {
     .addEventListener("submit", handleSignup);
 }
 
+//!Login logic
 function handleLogin(e) {
   e.preventDefault();
 
@@ -260,6 +262,7 @@ function handleLogin(e) {
       console.error(err);
     });
 }
+//!signup logic
 function handleSignup(e) {
   e.preventDefault();
 

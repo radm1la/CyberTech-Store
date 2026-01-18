@@ -231,6 +231,7 @@ header{
   border-bottom: 5px solid var(--bord);
   transition: all 0.3s ease-out;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .img_area {
@@ -291,6 +292,7 @@ header{
 .text_area h3 {
   font-size: 20px;
   flex-grow: 1;
+
 }
 
 .text_area .item_rating {
