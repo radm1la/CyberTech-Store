@@ -23,7 +23,6 @@ main {
   height: 480px;
   overflow: hidden;
   border-radius: 8px;
-  background-color: white;
 }
 
 .main_image img {
@@ -46,7 +45,6 @@ main {
   border-radius: 8px;
   overflow: hidden;
   transition: border-color 0.3s;
-  background-color: white;
 }
 
 .thumbnail:hover {
