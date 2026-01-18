@@ -397,7 +397,7 @@ function showAdded(btn) {
 
   const msg = document.createElement("div");
   msg.className = "added_badge";
-  msg.innerHTML = "Added";
+  msg.innerHTML = "ADDED";
 
   imgArea.appendChild(msg);
 
