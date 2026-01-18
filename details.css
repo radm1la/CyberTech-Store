@@ -23,6 +23,7 @@ main {
   height: 480px;
   overflow: hidden;
   border-radius: 8px;
+  background-color: white;
 }
 
 .main_image img {
@@ -35,6 +36,7 @@ main {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
+  background-color: white;
 }
 
 .thumbnail {
