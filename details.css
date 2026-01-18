@@ -36,7 +36,6 @@ main {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-  background-color: white;
 }
 
 .thumbnail {
@@ -47,6 +46,7 @@ main {
   border-radius: 8px;
   overflow: hidden;
   transition: border-color 0.3s;
+  background-color: white;
 }
 
 .thumbnail:hover {
@@ -121,13 +121,12 @@ main {
   font-size: 32px;
 }
 
-.pr_bef_disc{
-    color: var(--lt);
-    font-size: 26px;
-    text-decoration: line-through;
-    text-decoration-color:red ;
+.pr_bef_disc {
+  color: var(--lt);
+  font-size: 26px;
+  text-decoration: line-through;
+  text-decoration-color: red;
 }
-
 
 .info_value.stock {
   color: #4ade80;
