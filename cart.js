@@ -1,9 +1,16 @@
-//cart.js
 const btnCart = document.getElementById("btn_cart");
 const cartContainer = document.querySelector(".cart_container");
 const msgBox = document.createElement("div");
 const search = document.getElementById("search");
 msgBox.className = "box";
+
+const subTotalPriceCont = document.querySelector(".subtotal_price");
+const totalPriceCont = document.querySelector(".total_price");
+
+const checkoutBtn = document.querySelector(".confirm_btn");
+checkoutBtn.addEventListener("click",()=>{
+  checkout();
+})
 
 //!disabling search & cart btn
 if (window.location.pathname.includes("cart.html")) {
@@ -12,7 +19,7 @@ if (window.location.pathname.includes("cart.html")) {
 }
 
 //!checking
-function loadCart() {
+function loadCart(clear = true) {
   fetch("https://api.everrest.educata.dev/shop/cart", {
     method: "GET",
     headers: {
@@ -20,27 +27,48 @@ function loadCart() {
       Authorization: `Bearer ${Cookies.get("user")}`,
     },
   })
-    .then((answ) => answ.json())
+    .then((answ) => {
+      if (!answ.ok) {
+        return { error: true, products: [] };
+      }
+      return answ.json();
+    })
     .then((data) => {
-      console.log(data);
-
       if (data.error || !data.products || data.products.length === 0) {
         showEmptyCart();
+        updateCheckout(0, 0);
+        checkoutBtn.disabled = true;
+        checkoutBtn.style.opacity = 0.5;
+        checkoutBtn.style.pointerEvents = "none";
       } else {
-        data.products.forEach((item) => {
-          fetch(
-            `https://api.everrest.educata.dev/shop/products/id/${item.productId}`,
-          )
-            .then((answ) => answ.json())
-            .then((pr) => {
-              displayProduct(pr, item);
-            });
-        });
+        if (clear) { 
+          cartContainer.innerHTML = "";
+          
+          data.products.forEach((item) => {
+            fetch(
+              `https://api.everrest.educata.dev/shop/products/id/${item.productId}`,
+            )
+              .then((answ) => answ.json())
+              .then((pr) => {
+                displayProduct(pr, item);
+              });
+          });
+        }
+        const subtotal = data.total.price.beforeDiscount || 0;
+        const total = data.total.price.current || 0;
+        updateCheckout(subtotal, total);
       }
-    });
+    }).catch((err)=>{
+      console.log("no cart available");
+    })
 }
 
 loadCart();
+
+function updateCheckout(subtotal, total) {
+  subTotalPriceCont.textContent = `$${subtotal.toFixed(1)}`;
+  totalPriceCont.textContent = `$${total.toFixed(1)}`;
+}
 
 function checkEmptyCart() {
   const cards = cartContainer.querySelectorAll(".card");
@@ -157,8 +185,8 @@ function displayProduct(pr, item) {
       quantity--;
       updateUI();
       updateCart(pr._id, quantity);
-    }else if(quantity == 1){
-      removeProduct(pr._id,card);
+    } else if (quantity == 1) {
+      removeProduct(pr._id, card);
     }
   });
 
@@ -184,6 +212,7 @@ function updateCart(id, Nquantity) {
     .then((answ) => answ.json())
     .then((data) => {
       console.log(data);
+      loadCart(false);
     })
     .catch((error) => {
       console.error("Error updating", error);
@@ -206,8 +235,40 @@ function removeProduct(id, card) {
     .then((data) => {
       card.remove();
       checkEmptyCart();
+      updateCart(false);
     })
     .catch((error) => {
       console.error("Error removing", error);
     });
+}
+
+
+function checkout(){
+  fetch("https://api.everrest.educata.dev/shop/cart/checkout",{
+    method:"POST",
+    headers:{
+      accept: "*/*",
+      Authorization: `Bearer ${Cookies.get("user")}`
+    }
+  })
+  .then((answ)=>answ.json())
+  .then((data)=>{
+    console.log(data);
+    loadCart();
+    showCheckoutMessage("PURCHASE SUCCESSFUL");
+  })
+  .catch(err=>{
+    console.log("Error checking out: ", err);
+  })
+}
+
+const checkoutMsg = document.querySelector(".checkout_msg");
+
+function showCheckoutMessage(text) {
+  checkoutMsg.textContent = text;
+  checkoutMsg.className = `checkout_msg show`;
+
+  setTimeout(() => {
+    checkoutMsg.classList.remove("show");
+  }, 1500);
 }

@@ -249,7 +249,8 @@ function handleLogin(e) {
         errorBox.style.color = "orange";
         errorBox.innerHTML = "PLEASE VERIFY YOUR EMAIL BEFORE LOGGING IN.";
         errorBox.style.display = "block";
-        //Cookies.remove("user");
+        Cookies.remove("user");
+        checkForUser();
       }
     })
     .catch((err) => {

@@ -558,3 +558,43 @@ span.rating {
   padding: 20px;
 }
 
+.added_badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--nb);
+  color: var(--w);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.6);
+  animation: msgIn 0.3s ease forwards;
+  z-index: 5;
+}
+
+@keyframes msgIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.added_badge.fade_out {
+  animation: msgOut 0.3s ease forwards;
+}
+
+@keyframes msgOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.9);
+  }
+}

@@ -162,7 +162,7 @@ function displayProducts(pr) {
   if (pr.stock <= 0) {
     btnHTML = `<button class="disabled"><span>SOLD OUT</span></button>`;
   } else {
-    btnHTML = `<button onclick="addToCart('${pr._id}')"><span>ACQUIRE</span></button>`;
+    btnHTML = `<button onclick="addToCart('${pr._id}',this)"><span>ACQUIRE</span></button>`;
   }
 
   productsCont.innerHTML += `
@@ -312,7 +312,7 @@ function fetchFilterPr(filter) {
 }
 
 //!cart
-function addToCart(id) {
+function addToCart(id,btn = null) {
   let userToken = Cookies.get("user");
   if (!userToken) {
     showMsg();
@@ -355,6 +355,7 @@ function addToCart(id) {
       })
       .then((answ) => answ.json())
       .then((data) => {
+        showAdded(btn);
       });
     })
     .catch((error) => {
@@ -381,3 +382,27 @@ function showMsg() {
     document.body.style.overflow = "";
   };
 }
+
+function showAdded(btn) {
+  if (!btn) return; 
+
+  const card = btn.closest(".card");
+  if (!card) return;
+
+  const imgArea = card.querySelector(".img_area");
+  if (!imgArea) return;
+
+  if (imgArea.querySelector(".added_badge")) return;
+
+  const msg = document.createElement("div");
+  msg.className = "added_badge";
+  msg.innerHTML = "Added";
+
+  imgArea.appendChild(msg);
+
+  setTimeout(() => {
+    msg.classList.add("fade_out");
+    setTimeout(() => msg.remove(), 300);
+  }, 1000);
+}
+

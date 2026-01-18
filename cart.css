@@ -354,3 +354,19 @@ header p {
 .confirm_btn:active {
   transform: translateY(0);
 }
+
+.checkout_msg {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+  transition: all 0.35s ease;
+  color: var(--nb);
+}
+
+.checkout_msg.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
