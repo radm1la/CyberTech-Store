@@ -80,7 +80,7 @@ function checkForUser() {
       })
       .catch((err) => {
         //!testing something
-        console.warn("Token validation failed:", err);
+        console.console.log("Token validation failed:", err);
         Cookies.remove("user");
         Cookies.remove("userId");
         
