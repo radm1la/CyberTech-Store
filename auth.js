@@ -41,10 +41,6 @@ function checkForUser() {
   const prevSignout = document.getElementById("signout_btn");
   if (prevSignout) prevSignout.remove();
 
-  // btnCart.disabled = true;
-  // btnCart.style.opacity = "0.5";
-  // btnCart.style.pointerEvents = "none";
-
   if (userToken) {
     fetch("https://api.everrest.educata.dev/auth", {
       method: "GET",
@@ -79,7 +75,6 @@ function checkForUser() {
         }
       })
       .catch((err) => {
-        //!testing something
         console.console.log("Token validation failed:", err);
         Cookies.remove("user");
         Cookies.remove("userId");
