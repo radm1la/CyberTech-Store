@@ -99,6 +99,7 @@ function fetchProducts(page) {
     .then((res) => res.json())
     .then((data) => {
       totalPages = Math.ceil(data.total / pageSize);
+
       productsCont.innerHTML = "";
 
       data.products.forEach((pr) => displayProducts(pr));

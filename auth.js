@@ -30,7 +30,9 @@ function checkForUser() {
       },
     })
       .then((answ) => answ.json())
-      .then((userData) => {        
+      .then((userData) => {
+        Cookies.set("userId", userData._id);
+
         if (userData.verified) {
           const authForm = document.querySelector(".auth_form");
           if (authForm) authForm.remove();
@@ -66,11 +68,14 @@ checkForUser();
 //!signout
 function handleSignOut() {
   Cookies.remove("user");
-  if(window.location.pathname.includes('cart.html')){
-    window.location.href = "index.html"
-    return;
+  Cookies.remove("userId");
+  if (window.location.pathname.includes("cart.html")) {
+    window.location.href = "index.html";
+  } else if (window.location.pathname.includes("details.html")) {
+    location.reload();
+  } else {
+    checkForUser();
   }
-  checkForUser();
 }
 
 function openAuth() {
@@ -222,7 +227,6 @@ function handleLogin(e) {
   })
     .then((answ) => answ.json())
     .then((data) => {
-      
       if (data.access_token) {
         Cookies.set("user", data.access_token);
 
@@ -238,7 +242,6 @@ function handleLogin(e) {
       }
     })
     .then((userData) => {
-      
       if (userData.verified) {
         errorBox.style.color = "lime";
         errorBox.innerHTML = "LOGIN SUCCESSFUL!";

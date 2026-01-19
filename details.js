@@ -1,7 +1,7 @@
 const addToCartBtn = document.querySelector(".btn_add_to_cart");
 const prId = sessionStorage.getItem("prId");
 const search = document.getElementById("search");
-const reviewBtn = document.querySelector(".btn_submit_review");
+const ratingBtn = document.querySelector(".btn_submit_rating");
 
 disableElem(search);
 
@@ -66,11 +66,10 @@ function displayInfo(pr) {
   Stock.textContent = `${pr.stock} IN STOCK`;
 }
 
+//!fetch for getting the product (main fetch i call it)
 fetch(`https://api.everrest.educata.dev/shop/products/id/${prId}`)
   .then((answ) => answ.json())
   .then((pr) => {
-    console.log("in product display: ",pr);
-
     if (pr.stock == 0) {
       disableElem(addToCartBtn);
     }
@@ -78,6 +77,16 @@ fetch(`https://api.everrest.educata.dev/shop/products/id/${prId}`)
     displayImages(pr.images, pr.thumbnail);
 
     displayInfo(pr);
+
+    displayDetails(pr.description, pr.warranty);
+
+    displayratings(pr.ratings);
+
+    let savedUserId = Cookies.get("userId");
+    if (savedUserId && hasUserRated(pr.ratings, savedUserId)) {
+      disableElem(ratingBtn);
+      ratingBtn.textContent = "ALREADY RATED";
+    }
   });
 
 //!add to cart
@@ -126,7 +135,7 @@ function addToCart() {
       })
       .then((answ) => answ.json())
       .then((data) => {
-        showActionMessage("ITEM ADDED SUCCESSFULLY","adding");
+        showActionMessage("ITEM ADDED SUCCESSFULLY", "adding");
       })
       .catch((error) => {
         console.error("Error adding to cart:", error);
@@ -134,89 +143,91 @@ function addToCart() {
   }
 }
 
-//!review
-const reviewModal = document.getElementById("review_modal");
+//!rating
+const ratingModal = document.getElementById("rating_modal");
 
-reviewBtn.addEventListener("click", () => {
+ratingBtn.addEventListener("click", () => {
   let userToken = Cookies.get("user");
   if (!userToken) {
-    showActionMessage("PLEASE LOG IN TO SUBMIT A REVIEW");
+    showActionMessage("PLEASE LOG IN TO SUBMIT A rating");
   } else {
-    reviewModal.style.display = "flex";
+    ratingModal.style.display = "flex";
     document.body.style.overflow = "hidden";
-    showReviewForm();
+    showratingForm();
   }
 });
 
-function showReviewForm() {
+function showratingForm() {
   let selectedRating = 0;
-  const reviewStars = reviewModal.querySelectorAll(".review_star");
-  const okBtn = reviewModal.querySelector(".ok_btn");
-  const closeBtn = reviewModal.querySelector(".close_review");
+  const ratingStars = ratingModal.querySelectorAll(".rating_star");
+  const okBtn = ratingModal.querySelector(".ok_btn");
+  const closeBtn = ratingModal.querySelector(".close_rating");
 
-  reviewStars.forEach(star => {
+  ratingStars.forEach((star) => {
     star.addEventListener("click", () => {
       selectedRating = Number(star.dataset.value);
-      reviewStars.forEach(s => {
-        s.classList.toggle("active_review_star", Number(s.dataset.value) <= selectedRating);
+      ratingStars.forEach((s) => {
+        s.classList.toggle(
+          "active_rating_star",
+          Number(s.dataset.value) <= selectedRating,
+        );
       });
     });
   });
 
   closeBtn.onclick = () => {
-    reviewModal.style.display = "none";
+    ratingModal.style.display = "none";
     document.body.style.overflow = "";
-    resetReviewForm();
+    resetratingForm();
   };
-
 
   okBtn.onclick = () => {
     if (selectedRating === 0) {
-      showReviewMsg("PLEASE SELECT A RATING");
+      showratingMsg("PLEASE SELECT A RATING");
       return;
     }
 
-    doCheckout(selectedRating);
-    if(doCheckout){
-      showReviewMsg("REVIEW POSTED","review")
+    doRating(selectedRating);
+    if (doRating) {
+      showratingMsg("rating POSTED", "rating");
     }
-    
-    setTimeout(() => {
-    reviewModal.style.display = "none";
+
+   setTimeout(() => {
+    ratingModal.style.display = "none";
     document.body.style.overflow = "";
-    resetReviewForm();
+    resetratingForm();
+    location.reload();
   }, 2000);
   };
 }
 
-function resetReviewForm() {
-  const reviewStars = reviewModal.querySelectorAll(".review_star");
-  reviewStars.forEach(s => {
-    s.classList.remove("active_review_star");
+function resetratingForm() {
+  const ratingStars = ratingModal.querySelectorAll(".rating_star");
+  ratingStars.forEach((s) => {
+    s.classList.remove("active_rating_star");
   });
 }
 
-function doCheckout(rating){
-  fetch("https://api.everrest.educata.dev/shop/products/rate",{
-    method:"POST",
-    headers:{
+function doRating(rating) {  
+  fetch("https://api.everrest.educata.dev/shop/products/rate", {
+    method: "POST",
+    headers: {
       accept: "application/json",
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${Cookies.get("user")}`
+      Authorization: `Bearer ${Cookies.get("user")}`,
     },
-     body: JSON.stringify({
+    body: JSON.stringify({
       productId: prId,
-      rate: rating
-     })
+      rate: rating,
+    }),
   })
-  .then((answ)=>answ.json())
-  .then((data)=>{
-    return true;
-  })
-  .catch(err=> {console.log("Error: ",err);
-  })
+    .then((answ) => answ.json())
+    .then((data) => {
+    })
+    .catch((err) => {
+      console.log("Error: ", err);
+    });
 }
-
 
 //!lets call them helper functions
 function disableElem(elem) {
@@ -225,14 +236,18 @@ function disableElem(elem) {
   elem.style.pointerEvents = "none";
 }
 
+function hasUserRated(ratings, userId) {
+  return ratings.some(rating => rating.userId === userId);
+}
+
 //!msg
 const actionMsg = document.querySelector(".action_msg");
 
-function showActionMessage(text,action = null) {
+function showActionMessage(text, action = null) {
   actionMsg.textContent = text;
   actionMsg.classList.add("show");
 
-  if(action == "adding"){
+  if (action == "adding") {
     actionMsg.style.color = "#22d3ee";
   }
 
@@ -242,18 +257,187 @@ function showActionMessage(text,action = null) {
   }, 1000);
 }
 
-const reviewMsg = document.querySelector(".review_msg");
+const ratingMsg = document.querySelector(".rating_msg");
 
-function showReviewMsg(text,type = null) {
-  reviewMsg.textContent = text;
-  reviewMsg.classList.add("show");
-  if(type == "review"){
-    reviewMsg.style.color = "#22d3ee";
+function showratingMsg(text, type = null) {
+  ratingMsg.textContent = text;
+  ratingMsg.classList.add("show");
+  if (type == "rating") {
+    ratingMsg.style.color = "#22d3ee";
   }
 
-  clearTimeout(reviewMsg._timeout);
-  reviewMsg._timeout = setTimeout(() => {
-    reviewMsg.classList.remove("show");
-    reviewMsg.style.display = "none";
+  clearTimeout(ratingMsg._timeout);
+  ratingMsg._timeout = setTimeout(() => {
+    ratingMsg.classList.remove("show");
+    ratingMsg.style.display = "none";
   }, 2000);
 }
+
+//!tabs area
+const tabBtns = document.querySelectorAll(".tabBtn");
+const tabContents = document.querySelectorAll(".tab_content");
+const descriptionCont = document.querySelector(".description");
+const warrantyCont = document.querySelector(".warranty");
+const ratingsList = document.querySelector(".ratings_list");
+const ratingsLength = document.getElementById("ratings_length");
+
+function displayDetails(description, warranty) {
+  descriptionCont.textContent = description.toUpperCase();
+  warrantyCont.textContent = warranty + " YEARS";
+}
+
+let currentRatingsDisplayed = 0;
+const ratingsPerPage = 6;
+let allRatings = [];
+
+function displayratings(ratings) {
+  allRatings = ratings;
+  currentRatingsDisplayed = 0;
+
+  const ratingsTab = document.querySelector("#ratings_tab");
+
+  if (ratings.length == 0) {
+    ratingsList.innerHTML = `<p class="no_ratings">NO RATINGS YET</p>`;
+  } else {
+    ratingsList.innerHTML = "";
+    ratingsLength.textContent = ratings.length;
+
+    let loadMoreContainer = ratingsTab.querySelector(".load_more_container");
+    if (!loadMoreContainer) {
+      loadMoreContainer = document.createElement("div");
+      loadMoreContainer.className = "load_more_container";
+      loadMoreContainer.innerHTML = `
+        <button class="btn_load_more">
+          <i class="fa-solid fa-chevron-down"></i> LOAD MORE
+        </button>
+        <button class="btn_hide_ratings">
+          <i class="fa-solid fa-chevron-up"></i> HIDE
+        </button>
+      `;
+      ratingsTab.appendChild(loadMoreContainer);
+
+      loadMoreContainer
+        .querySelector(".btn_load_more")
+        .addEventListener("click", loadMoreRatings);
+      loadMoreContainer
+        .querySelector(".btn_hide_ratings")
+        .addEventListener("click", hideRatings);
+    }
+
+    loadMoreRatings();
+  }
+}
+
+function loadMoreRatings() {
+  const loadMoreBtn = document.querySelector(".btn_load_more");
+  const hideBtn = document.querySelector(".btn_hide_ratings");
+
+  const endIndex = Math.min(
+    currentRatingsDisplayed + ratingsPerPage,
+    allRatings.length,
+  );
+
+  for (let i = currentRatingsDisplayed; i < endIndex; i++) {
+    const rating = allRatings[i];
+
+    const date = new Date(rating.createdAt);
+    const formattedDate = date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+
+    let stars = "";
+    for (let j = 1; j <= 5; j++) {
+      if (j <= rating.value) {
+        stars += `<i class="fa-solid fa-star"></i>`;
+      } else {
+        stars += `<i class="fa-solid fa-star empty_star"></i>`;
+      }
+    }
+
+    const ratingItem = document.createElement("div");
+    ratingItem.className = "rating_item";
+    ratingItem.innerHTML = `
+      <div class="rating_user_info">
+        <div class="rating_username">${rating.userId}</div>
+        <div class="rating_date">${formattedDate}</div>
+      </div>
+      <div class="rating_score">
+        ${stars}
+      </div>
+    `;
+
+    ratingsList.appendChild(ratingItem);
+
+    const token = Cookies.get("user");
+
+    fetch(`https://api.everrest.educata.dev/auth/id/${rating.userId}`, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((answ) => {
+        if (!answ.ok) {
+          return { error: true, products: [] };
+        }
+        return answ.json();
+      })
+      .then((data) => {
+        if (data.error) {
+          const usernameEl = ratingItem.querySelector(".rating_username");
+          usernameEl.textContent = "UNKNOWN USER";
+          console.log("NO SUCH USER");
+          
+        } else {
+          const usernameEl = ratingItem.querySelector(".rating_username");
+          usernameEl.textContent =
+            `${data.firstName} ${data.lastName}`.toUpperCase();
+        }
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
+  }
+
+  currentRatingsDisplayed = endIndex;
+
+  if (currentRatingsDisplayed > ratingsPerPage) {
+    hideBtn.style.display = "flex";
+  }
+
+  if (currentRatingsDisplayed >= allRatings.length) {
+    loadMoreBtn.style.display = "none";
+  }
+}
+
+function hideRatings() {
+  const ratingsList = document.querySelector(".ratings_list");
+  const loadMoreBtn = document.querySelector(".btn_load_more");
+  const hideBtn = document.querySelector(".btn_hide_ratings");
+
+  ratingsList.innerHTML = "";
+
+  currentRatingsDisplayed = 0;
+
+  loadMoreRatings();
+
+  hideBtn.style.display = "none";
+
+  if (allRatings.length > ratingsPerPage) {
+    loadMoreBtn.style.display = "flex";
+  }
+}
+
+tabBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    tabBtns.forEach((b) => b.classList.remove("active"));
+    tabContents.forEach((c) => c.classList.remove("active"));
+
+    btn.classList.add("active");
+    const tabId = btn.id + "_tab";
+    document.getElementById(tabId).classList.add("active");
+  });
+});
