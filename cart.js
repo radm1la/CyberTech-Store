@@ -161,6 +161,10 @@ function displayProduct(pr, item) {
 
   cartContainer.appendChild(card);
 
+  card.addEventListener("click",()=>{
+    goToDetailsPage(card.id);
+  })
+
   const qtyNumber = card.querySelector(".qty_number");
   const totalPriceElem = card.querySelector(".total_price");
   const incrBtn = card.querySelector(".incr");
@@ -194,6 +198,11 @@ function displayProduct(pr, item) {
     removeProduct(pr._id, card);
     updateUI();
   });
+}
+
+function goToDetailsPage(id){
+  sessionStorage.setItem("prId",id);
+  window.location.href = 'details.html';
 }
 
 function updateCart(id, Nquantity) {
