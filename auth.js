@@ -41,6 +41,10 @@ function checkForUser() {
   const prevSignout = document.getElementById("signout_btn");
   if (prevSignout) prevSignout.remove();
 
+  // btnCart.disabled = true;
+  // btnCart.style.opacity = "0.5";
+  // btnCart.style.pointerEvents = "none";
+
   if (userToken) {
     fetch("https://api.everrest.educata.dev/auth", {
       method: "GET",
@@ -75,7 +79,16 @@ function checkForUser() {
         }
       })
       .catch((err) => {
-        console.error("Failed to fetch user:", err);
+        //!testing something
+        console.warn("Token validation failed:", err);
+        Cookies.remove("user");
+        Cookies.remove("userId");
+        
+        btnAuth.disabled = false;
+        btnAuth.innerHTML = "AUTHENTICATE";
+        btnCart.disabled = true;
+        btnCart.style.opacity = "0.5";
+        btnCart.style.pointerEvents = "none";
       });
   } else {
     btnCart.disabled = true;
