@@ -313,8 +313,43 @@ function fetchFilterPr(filter) {
     });
 }
 
+const resetFiltersBtn = document.querySelector(".reset_filters");
+resetFiltersBtn.addEventListener("click", () => {
+  resetFilters();
+});
+
+function resetFilters() {
+  categories.value = 0;
+
+  const allBrandsRadioBtn = document.getElementById("brand_all");
+  if (allBrandsRadioBtn) {
+    allBrandsRadioBtn.checked = true;
+  }
+
+  priceSlider.value = 10000;
+  priceCap.innerHTML = priceSlider.value;
+
+  stars.forEach((s) => {
+    s.classList.remove("active_star");
+  });
+  currentRating = 0;
+  minRatingShow.innerHTML = "0.0+";
+
+  currentFilter = {
+    category: null,
+    brand: null,
+    price: null,
+    rating: null,
+  };
+
+  currentMode = "all";
+  currentPage = 1;
+
+  fetchProducts(currentPage);
+}
+
 //!cart
-function addToCart(id,btn = null) {
+function addToCart(id, btn = null) {
   let userToken = Cookies.get("user");
   if (!userToken) {
     showMsg();
@@ -323,46 +358,48 @@ function addToCart(id,btn = null) {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization: `Bearer ${userToken}`
-      }
+        Authorization: `Bearer ${userToken}`,
+      },
     })
-    .then((answ) => answ.json())
-    .then((cartData) => {
-      let existingProduct = cartData.products?.find(item => item.productId === id);
-      let newQuantity = existingProduct ? existingProduct.quantity + 1 : 1;
-      
-      let prodInfo = {
-        id: id,
-        quantity: newQuantity,  
-      };
-
-      return fetch("https://api.everrest.educata.dev/auth", {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${userToken}`
-        }
-      })
       .then((answ) => answ.json())
-      .then((data) => {
-        return fetch("https://api.everrest.educata.dev/shop/cart/product", {
-          method: data.cartID ? 'PATCH' : 'POST',
+      .then((cartData) => {
+        let existingProduct = cartData.products?.find(
+          (item) => item.productId === id,
+        );
+        let newQuantity = existingProduct ? existingProduct.quantity + 1 : 1;
+
+        let prodInfo = {
+          id: id,
+          quantity: newQuantity,
+        };
+
+        return fetch("https://api.everrest.educata.dev/auth", {
+          method: "GET",
           headers: {
             accept: "application/json",
             Authorization: `Bearer ${userToken}`,
-            "Content-Type": "application/json"
           },
-          body: JSON.stringify(prodInfo)
-        });
+        })
+          .then((answ) => answ.json())
+          .then((data) => {
+            return fetch("https://api.everrest.educata.dev/shop/cart/product", {
+              method: data.cartID ? "PATCH" : "POST",
+              headers: {
+                accept: "application/json",
+                Authorization: `Bearer ${userToken}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(prodInfo),
+            });
+          })
+          .then((answ) => answ.json())
+          .then((data) => {
+            showAdded(btn);
+          });
       })
-      .then((answ) => answ.json())
-      .then((data) => {
-        showAdded(btn);
+      .catch((error) => {
+        console.error("Error adding to cart:", error);
       });
-    })
-    .catch((error) => {
-      console.error("Error adding to cart:", error);
-    });
   }
 }
 function showMsg() {
@@ -386,7 +423,7 @@ function showMsg() {
 }
 
 function showAdded(btn) {
-  if (!btn) return; 
+  if (!btn) return;
 
   const card = btn.closest(".card");
   if (!card) return;
@@ -408,9 +445,8 @@ function showAdded(btn) {
   }, 1000);
 }
 
-
 //!switching to details' page
-function goToDetailsPage(prId){
-  sessionStorage.setItem("prId",prId);
-  window.location.href = 'details.html';
+function goToDetailsPage(prId) {
+  sessionStorage.setItem("prId", prId);
+  window.location.href = "details.html";
 }
