@@ -9,6 +9,27 @@ btnAuth.addEventListener("click", () => {
   }
 });
 
+function showAuthMessage(message, type = 'error') {
+  const errorBox = document.querySelector(".auth_error");
+  
+  const colors = {
+    success: 'lime',
+    error: 'red',
+    warning: 'orange',
+    info: '#22d3ee'
+  };
+  
+  errorBox.style.color = colors[type] || colors.error;
+  errorBox.textContent = message;
+  errorBox.style.display = "block";
+}
+
+function hideAuthMessage() {
+  const errorBox = document.querySelector(".auth_error");
+  errorBox.textContent = "";
+  errorBox.style.display = "none";
+}
+
 //!checking for user
 function checkForUser() {
   const userToken = Cookies.get("user");
@@ -106,11 +127,11 @@ function showLogin() {
     <form id="loginForm">
       <div class="input_area">
           <i class="fa-solid fa-envelope"></i>
-          <input type="email" id="login_email" placeholder="Email" name="email" required/>
+          <input type="email" id="login_email" placeholder="Email" name="email" />
       </div>
       <div class="input_area">
           <i class="fa-solid fa-lock"></i>
-          <input type="password" id="login_password" placeholder="Password" name="password" required/>
+          <input type="password" id="login_password" placeholder="Password" name="password" />
       </div>
 
       <button type="submit" id="loginBtn">LOGIN</button>
@@ -217,6 +238,12 @@ function handleLogin(e) {
   errorBox.innerHTML = "";
   errorBox.style.display = "none";
 
+  const validation = validateLoginInputs(finalForm.email, finalForm.password);
+  if (!validation.valid) {
+    showAuthMessage(validation.message, "error");
+    return; 
+  }
+
   fetch("https://api.everrest.educata.dev/auth/sign_in", {
     method: "POST",
     headers: {
@@ -273,9 +300,16 @@ function handleSignup(e) {
   let finalForm = Object.fromEntries(formInfo);
   finalForm.age = Number(finalForm.age);
 
+
   const errorBox = document.querySelector(".auth_error");
   errorBox.textContent = "";
   errorBox.style.display = "none";
+
+  const validation = validateSignupInputs(finalForm);
+  if (!validation.valid) {
+    showAuthMessage(validation.message, "error");
+    return; 
+  }
 
   fetch("https://api.everrest.educata.dev/auth/sign_up", {
     method: "POST",
@@ -319,4 +353,53 @@ function handleSignup(e) {
       errorBox.style.display = "block";
       console.error(err);
     });
+}
+
+//!errors
+function validateLoginInputs(email, password) {  
+  if (!email || !password) {
+    return { valid: false, message: "PLEASE FILL IN ALL FIELDS" };
+  }
+  
+  if (password.length < 6) {
+    return { valid: false, message: "PASSWORD MUST BE AT LEAST 6 CHARACTERS" };
+  }
+  
+  return { valid: true };
+}
+
+function validateSignupInputs(formData) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const nameRegex = /^[A-Za-z]/; 
+  
+  if (!formData.firstName || formData.firstName.trim() === "") {
+    return { valid: false, message: "FIRST NAME IS REQUIRED" };
+  }
+  
+  if (!nameRegex.test(formData.firstName)) {
+    return { valid: false, message: "FIRST NAME MUST START WITH A LETTER" };
+  }
+  
+  if (!formData.lastName || formData.lastName.trim() === "") {
+    return { valid: false, message: "LAST NAME IS REQUIRED" };
+  }
+  
+  if (!nameRegex.test(formData.lastName)) {
+    return { valid: false, message: "LAST NAME MUST START WITH A LETTER" };
+  }
+  
+  if (!formData.age || formData.age < 13 || formData.age > 120) {
+    return { valid: false, message: "PLEASE ENTER A VALID AGE (13-120)" };
+  }
+  
+  const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+  if (!formData.phone || !phoneRegex.test(formData.phone)) {
+    return { valid: false, message: "PLEASE ENTER A VALID PHONE NUMBER" };
+  }
+  
+  if (!formData.password || formData.password.length < 6) {
+    return { valid: false, message: "PASSWORD MUST BE AT LEAST 6 CHARACTERS" };
+  }
+  
+  return { valid: true };
 }
