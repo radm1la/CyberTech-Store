@@ -333,7 +333,7 @@ function resetFilters() {
     s.classList.remove("active_star");
   });
   currentRating = 0;
-  minRatingShow.innerHTML = "0.0+";
+  minRatingShow.innerHTML = "";
 
   currentFilter = {
     category: null,
