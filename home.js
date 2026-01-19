@@ -1,4 +1,3 @@
-//homejs
 const categories = document.getElementById("categories");
 const brandsCont = document.getElementById("brands");
 const priceCap = document.getElementById("price_cap");

@@ -1,4 +1,3 @@
-//auth.js
 const btnAuth = document.getElementById("btn_auth");
 const leftSideOfNav = document.querySelector(".left_side");
 
