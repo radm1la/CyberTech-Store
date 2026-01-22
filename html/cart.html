@@ -17,7 +17,7 @@
   </head>
   <body>
     <!-- NAVBAR -->
-    <nav>
+        <nav>
       <div class="icon_area">
         <span class="icon i_anim"><i class="fa-solid fa-desktop"></i></span>
         <h1
@@ -27,19 +27,22 @@
           Cyber<span style="color: #22d3ee">Tech</span>
         </h1>
       </div>
-      <div class="search_bar">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" name="" id="search" placeholder="SCAN DATABASE" />
+      <div class="nav_field">
+        <div class="search_bar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" name="" id="search" placeholder="SCAN DATABASE" />
+        </div>
+        <div class="left_side">
+          <button id="btn_auth">AUTHENTICATE</button>
+          <span
+            class="i_anim"
+            id="btn_cart"
+            onclick="window.location.href = '/html/cart.html'"
+            ><i class="fa-solid fa-basket-shopping"></i
+          ></span>
+        </div>
       </div>
-      <div class="left_side">
-        <button id="btn_auth">AUTHENTICATE</button>
-        <span
-          class="i_anim"
-          id="btn_cart"
-          onclick="window.location.href = '/html/cart.html'"
-          ><i class="fa-solid fa-basket-shopping"></i
-        ></span>
-      </div>
+      <div class="bars"><i class="fa-solid fa-bars"></i></div>
     </nav>
     <!-- MAIN -->
     <main>
@@ -77,6 +80,7 @@
     <script src="
 https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 "></script>
+<script src="/js/nav.js"></script>
     <script src="/js/auth.js"></script>
     <script src="/js/cart.js"></script>
   </body>

@@ -376,6 +376,9 @@ input[type="number"]::-webkit-outer-spin-button {
   nav {
     padding: 20px 50px;
   }
+    #btn_auth{
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 1120px) {
@@ -411,6 +414,7 @@ input[type="number"]::-webkit-outer-spin-button {
   body{
     padding-inline: 0px;
   }
+
 
 }
 
