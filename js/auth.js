@@ -378,6 +378,14 @@ function validateSignupInputs(formData) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const nameRegex = /^[A-Za-z]/;
 
+  if (!formData.email || formData.email.trim() === "") {
+    return { valid: false, message: "EMAIL IS REQUIRED. EXAMPLE: JOHN.SMITH@EMAIL.COM" };
+  }
+
+  if (!emailRegex.test(formData.email)) {
+    return { valid: false, message: "INVALID EMAIL FORMAT. EXAMPLE: JOHN.SMITH@EMAIL.COM" };
+  }
+
   if (!formData.firstName || formData.firstName.trim() === "") {
     return { valid: false, message: "FIRST NAME IS REQUIRED" };
   }
@@ -405,6 +413,19 @@ function validateSignupInputs(formData) {
 
   if (!formData.password || formData.password.length < 6) {
     return { valid: false, message: "PASSWORD MUST BE AT LEAST 6 CHARACTERS" };
+  }
+
+  if (formData.avatar && formData.avatar.trim() !== "") {
+    const urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/i;
+    const imageExtensionRegex = /\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?.*)?$/i;
+    
+    if (!urlRegex.test(formData.avatar)) {
+      return { valid: false, message: "INVALID AVATAR URL. EXAMPLE: https://example.com/avatar.jpg" };
+    }
+    
+    if (!imageExtensionRegex.test(formData.avatar)) {
+      return { valid: false, message: "AVATAR URL MUST END WITH IMAGE FORMAT (.jpg, .jpeg, .png, .gif, .webp, .svg)" };
+    }
   }
 
   return { valid: true };
