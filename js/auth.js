@@ -89,10 +89,6 @@ function checkForUser() {
     btnCart.disabled = true;
     btnCart.style.opacity = "0.5";
     btnCart.style.pointerEvents = "none";
-
-    btnAuth.disabled = true;
-    btnAuth.innerHTML = `<i class="fa-solid fa-user"></i> ${userData.firstName}`;
-    btnAuth.style.pointerEvents = "none";
   }
 }
 
