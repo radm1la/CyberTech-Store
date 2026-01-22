@@ -8,16 +8,16 @@ btnAuth.addEventListener("click", () => {
   }
 });
 
-function showAuthMessage(message, type = 'error') {
+function showAuthMessage(message, type = "error") {
   const errorBox = document.querySelector(".auth_error");
-  
+
   const colors = {
-    success: 'lime',
-    error: 'red',
-    warning: 'orange',
-    info: '#22d3ee'
+    success: "lime",
+    error: "red",
+    warning: "orange",
+    info: "#22d3ee",
   };
-  
+
   errorBox.style.color = colors[type] || colors.error;
   errorBox.textContent = message;
   errorBox.style.display = "block";
@@ -78,7 +78,7 @@ function checkForUser() {
         console.console.log("Token validation failed:", err);
         Cookies.remove("user");
         Cookies.remove("userId");
-        
+
         btnAuth.disabled = false;
         btnAuth.innerHTML = "AUTHENTICATE";
         btnCart.disabled = true;
@@ -89,6 +89,10 @@ function checkForUser() {
     btnCart.disabled = true;
     btnCart.style.opacity = "0.5";
     btnCart.style.pointerEvents = "none";
+
+    btnAuth.disabled = true;
+    btnAuth.innerHTML = `<i class="fa-solid fa-user"></i> ${userData.firstName}`;
+    btnAuth.style.pointerEvents = "none";
   }
 }
 
@@ -248,7 +252,7 @@ function handleLogin(e) {
   const validation = validateLoginInputs(finalForm.email, finalForm.password);
   if (!validation.valid) {
     showAuthMessage(validation.message, "error");
-    return; 
+    return;
   }
 
   fetch("https://api.everrest.educata.dev/auth/sign_in", {
@@ -307,7 +311,6 @@ function handleSignup(e) {
   let finalForm = Object.fromEntries(formInfo);
   finalForm.age = Number(finalForm.age);
 
-
   const errorBox = document.querySelector(".auth_error");
   errorBox.textContent = "";
   errorBox.style.display = "none";
@@ -315,7 +318,7 @@ function handleSignup(e) {
   const validation = validateSignupInputs(finalForm);
   if (!validation.valid) {
     showAuthMessage(validation.message, "error");
-    return; 
+    return;
   }
 
   fetch("https://api.everrest.educata.dev/auth/sign_up", {
@@ -363,50 +366,50 @@ function handleSignup(e) {
 }
 
 //!errors
-function validateLoginInputs(email, password) {  
+function validateLoginInputs(email, password) {
   if (!email || !password) {
     return { valid: false, message: "PLEASE FILL IN ALL FIELDS" };
   }
-  
+
   if (password.length < 6) {
     return { valid: false, message: "PASSWORD MUST BE AT LEAST 6 CHARACTERS" };
   }
-  
+
   return { valid: true };
 }
 
 function validateSignupInputs(formData) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const nameRegex = /^[A-Za-z]/; 
-  
+  const nameRegex = /^[A-Za-z]/;
+
   if (!formData.firstName || formData.firstName.trim() === "") {
     return { valid: false, message: "FIRST NAME IS REQUIRED" };
   }
-  
+
   if (!nameRegex.test(formData.firstName)) {
     return { valid: false, message: "FIRST NAME MUST START WITH A LETTER" };
   }
-  
+
   if (!formData.lastName || formData.lastName.trim() === "") {
     return { valid: false, message: "LAST NAME IS REQUIRED" };
   }
-  
+
   if (!nameRegex.test(formData.lastName)) {
     return { valid: false, message: "LAST NAME MUST START WITH A LETTER" };
   }
-  
+
   if (!formData.age || formData.age < 13 || formData.age > 120) {
     return { valid: false, message: "PLEASE ENTER A VALID AGE (13-120)" };
   }
-  
+
   const phoneRegex = /^[\d\s\-\+\(\)]+$/;
   if (!formData.phone || !phoneRegex.test(formData.phone)) {
     return { valid: false, message: "PLEASE ENTER A VALID PHONE NUMBER" };
   }
-  
+
   if (!formData.password || formData.password.length < 6) {
     return { valid: false, message: "PASSWORD MUST BE AT LEAST 6 CHARACTERS" };
   }
-  
+
   return { valid: true };
 }
