@@ -98,7 +98,7 @@ function handleSignOut() {
   Cookies.remove("user");
   Cookies.remove("userId");
   if (window.location.pathname.includes("cart.html")) {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   } else if (window.location.pathname.includes("details.html")) {
     location.reload();
   } else {

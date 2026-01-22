@@ -106,7 +106,7 @@ function displayProduct(pr, item) {
             alt="${pr.title} + img"
             onerror="
               this.onerror = null;
-              this.src = 'backupImg.jpg';
+              this.src = '/other/backupImg.jpg';
             "
           />
           <div class="info">
@@ -202,7 +202,7 @@ function displayProduct(pr, item) {
 
 function goToDetailsPage(id){
   sessionStorage.setItem("prId",id);
-  window.location.href = 'details.html';
+  window.location.href = '/html/details.html';
 }
 
 function updateCart(id, Nquantity) {

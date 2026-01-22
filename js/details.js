@@ -13,12 +13,12 @@ function displayImages(imgs, bigImgSrc) {
   bigImg.src = bigImgSrc;
   bigImg.onerror = function () {
     this.onerror = null;
-    this.src = "backupImg.jpg";
+    this.src = "/other/backupImg.jpg";
   };
   imgs.forEach((img, index) => {
     smallImgsCont.innerHTML += `
          <div class="thumbnail ${index === 0 ? "active" : ""}" onclick="activate('${img}', this)">
-              <img src="${img}" onerror="this.onerror=null; this.src='backupImg.jpg';" />
+              <img src="${img}" onerror="this.onerror=null; this.src='/other/backupImg.jpg';" />
          </div>
     `;
   });
@@ -28,7 +28,7 @@ function activate(imgsrc, element) {
   bigImg.src = imgsrc;
   bigImg.onerror = function () {
     this.onerror = null;
-    this.src = "backupImg.jpg";
+    this.src = "/other/backupImg.jpg";
   };
 
   const allImgs = document.querySelectorAll(".thumbnail");

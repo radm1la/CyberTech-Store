@@ -172,7 +172,7 @@ function displayProducts(pr) {
               <img
                 src="${pr.thumbnail}"
                 alt=""
-                onerror="this.onerror=null; this.src='backupImg.jpg';"
+                onerror="this.onerror=null; this.src='/other/backupImg.jpg';"
               />
               <div class="brand_name">${pr.brand}</div>
               ${discountHTML}
@@ -447,5 +447,5 @@ function showAdded(btn) {
 //!switching to details' page
 function goToDetailsPage(prId) {
   sessionStorage.setItem("prId", prId);
-  window.location.href = "details.html";
+  window.location.href = "/html/details.html";
 }
