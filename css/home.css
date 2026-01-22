@@ -795,6 +795,31 @@ span.rating {
     font-size: 8px;
   }
   .card button{
-    font-size: 10px;
+    font-size: 8px;
   }
+  .msg_box_cont {
+    padding: 10px 20px;   
+}
+.msg_box_cont h1{
+  font-size: 14px;
+}
+    .beforeDisc {
+        font-size: 12px;
+    }
+    #price{
+      font-size: 12px;
+    }
+    .item_price p{
+      font-size: 12px;
+    }
+    .card h3{
+      font-size: 10px;
+    }
+    .card{
+     height: 300px;
+    }
+
+    .text_area .item_rating {
+    font-size: 8px;
+}
 }
