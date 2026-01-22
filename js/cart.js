@@ -161,9 +161,16 @@ function displayProduct(pr, item) {
 
   cartContainer.appendChild(card);
 
-  card.addEventListener("click",()=>{
-    goToDetailsPage(card.id);
-  })
+const titleField = card.querySelector(".title_field");
+const imgElem = card.querySelector("img");
+
+titleField.addEventListener("click", () => {
+  goToDetailsPage(card.id);
+});
+
+imgElem.addEventListener("click", () => {
+  goToDetailsPage(card.id);
+});
 
   const qtyNumber = card.querySelector(".qty_number");
   const totalPriceElem = card.querySelector(".total_price");
