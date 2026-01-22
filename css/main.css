@@ -427,4 +427,22 @@ nav h1{
 .left_side span {
     font-size: 12px;
 }
+  .auth_window{
+    width: 100%;
+    padding: 30px 5px;
+}
+  #signupForm input,#signupForm select{
+   font-size: 12px;
+  }
+
+}
+
+@media (max-width:820px) {
+  #signupForm {
+    width: 100%;
+  }
+.auth_content{
+  width: fit-content;
+  padding: 0;
+}
 }
