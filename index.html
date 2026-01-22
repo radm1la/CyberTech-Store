@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,41 +13,55 @@
     <title>CyberTech Store</title>
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="/css/home.css" />
-    <link rel="icon" href="/other/webicon.png">
+    <link rel="icon" href="/other/webicon.png" />
   </head>
   <body>
     <!-- NAVBAR -->
     <nav>
       <div class="icon_area">
         <span class="icon i_anim"><i class="fa-solid fa-desktop"></i></span>
-        <h1 onclick="window.location.href='../index.html'" style="cursor: pointer">
+        <h1
+          onclick="window.location.href = '../index.html'"
+          style="cursor: pointer"
+        >
           Cyber<span style="color: #22d3ee">Tech</span>
         </h1>
       </div>
-      <div class="search_bar">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" name="" id="search" placeholder="SCAN DATABASE" />
+      <div class="nav_field">
+        <div class="search_bar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" name="" id="search" placeholder="SCAN DATABASE" />
+        </div>
+        <div class="left_side">
+          <button id="btn_auth">AUTHENTICATE</button>
+          <span
+            class="i_anim"
+            id="btn_cart"
+            onclick="window.location.href = '/html/cart.html'"
+            ><i class="fa-solid fa-basket-shopping"></i
+          ></span>
+        </div>
       </div>
-      <div class="left_side">
-        <button id="btn_auth">AUTHENTICATE</button>
-        <span class="i_anim" id="btn_cart" onclick="window.location.href='/html/cart.html'"
-          ><i class="fa-solid fa-basket-shopping"></i
-        ></span>
-      </div>
+      <div class="bars"><i class="fa-solid fa-bars"></i></div>
     </nav>
     <!-- HEADER -->
     <header>
-     
-  <div class="grid-background"></div>
-  <h1>WELCOME TO CYBER<span style="color: #22d3ee;">TECH</span></h1>
-  <h2>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veniam expedita sunt ipsum, libero cum corporis.</h2>
-  <button><a href="#prods" style="text-decoration: none;color: #0f172a;">SEE PRODUCTS</a></button>
-
-     </header>
+      <div class="grid-background"></div>
+      <h1>WELCOME TO CYBER<span style="color: #22d3ee">TECH</span></h1>
+      <h2>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veniam
+        expedita sunt ipsum, libero cum corporis.
+      </h2>
+      <button>
+        <a href="#prods" style="text-decoration: none; color: #0f172a"
+          >SEE PRODUCTS</a
+        >
+      </button>
+    </header>
     <!-- MAIN -->
     <main id="main">
       <div class="filter_area">
-        <p class="title"><i class="fa-solid fa-square"></i> TERMINAL FILTER</p>
+        <p class="title"><i class="fa-solid fa-square"></i> TERMINAL FILTER <span class="close_filter"><i class="fa-solid fa-x"></i></span></p>
         <div class="sub_area_cats">
           <p for="">CATEGORY</p>
           <select id="categories">
@@ -104,7 +118,7 @@
       </div>
       <div class="products_area">
         <div class="upper_part" id="prods">
-          <h1>PRODUCT DATABASE</h1>
+          <h1>PRODUCT DATABASE <span class="filterIcon"><i class="fa-solid fa-filter"></i></span></h1>
           <p>
             <i class="fa-solid fa-circle"></i
             ><span id="prod_count"></span> NODES FOUND
@@ -122,9 +136,11 @@
         </div>
       </div>
     </main>
-        <script src="
+    <script src="
 https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 "></script>
+<script src="/js/nav.js"></script>
+<script src="js/mbFilter.js"></script>
     <script src="/js/home.js"></script>
     <script src="/js/auth.js"></script>
   </body>
