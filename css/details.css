@@ -586,6 +586,7 @@ main {
   .main_image {
     height: auto;
   }
+
 }
 
 @media (max-width: 800px) {

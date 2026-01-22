@@ -196,7 +196,18 @@ function showratingForm() {
     ratingModal.style.display = "none";
     document.body.style.overflow = "";
     resetratingForm();
-    location.reload();
+    fetch(`https://api.everrest.educata.dev/shop/products/id/${prId}`)
+      .then((answ) => answ.json())
+      .then((pr) => {
+        displayratings(pr.ratings);
+        
+        // Update the rating button if needed
+        let savedUserId = Cookies.get("userId");
+        if (savedUserId && hasUserRated(pr.ratings, savedUserId)) {
+          disableElem(ratingBtn);
+          ratingBtn.textContent = "ALREADY RATED";
+        }
+      });
   }, 2000);
   };
 }
