@@ -95,7 +95,7 @@ header p {
   transition: all 0.3s ease-out;
 }
 
-.card img:hover{
+.card img:hover {
   transform: scale(1.05);
 }
 
@@ -114,7 +114,7 @@ header p {
   transition: all 0.2s ease-out;
 }
 
-.title_field h1:hover{
+.title_field h1:hover {
   color: var(--nb);
 }
 
@@ -464,5 +464,11 @@ header p {
   }
   .checkout_header h2 {
     font-size: 14px;
+  }
+  .ratings_field {
+    gap: 10px;
+  }
+  .last_field .sub_f p {
+    font-size: 8px;
   }
 }
