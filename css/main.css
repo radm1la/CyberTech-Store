@@ -19,6 +19,7 @@
   box-sizing: border-box;
   font-family: "MyFont", sans-serif;
   letter-spacing: 1.4px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
