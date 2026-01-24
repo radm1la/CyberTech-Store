@@ -111,6 +111,7 @@ nav .left_side {
 
 .left_side button:hover {
   filter: brightness(1.5);
+  border-color:var(--nb) ;
 }
 
 .left_side span {

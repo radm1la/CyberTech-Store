@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Control Center</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/profile.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav>
+      <div class="icon_area">
+        <span class="icon i_anim"><i class="fa-solid fa-desktop"></i></span>
+        <h1
+          onclick="window.location.href = '../index.html'"
+          style="cursor: pointer"
+        >
+          Cyber<span style="color: #22d3ee">Tech</span>
+        </h1>
+      </div>
+      <div class="nav_field">
+        <div class="search_bar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" name="" id="search" placeholder="SCAN DATABASE" />
+        </div>
+        <div class="left_side">
+          <button id="btn_auth">AUTHENTICATE</button>
+          <span
+            class="i_anim"
+            id="btn_cart"
+            onclick="window.location.href = '/html/cart.html'"
+            ><i class="fa-solid fa-basket-shopping"></i
+          ></span>
+        </div>
+      </div>
+      <div class="bars"><i class="fa-solid fa-bars"></i></div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="profile_main">
+      <div class="profile_header">
+        <h1>USER CONTROL CENTER</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A, sed?</p>
+      </div>
+
+      <div class="profile_grid">
+        <aside class="user_card">
+          <div class="avatar_section">
+            <div class="avatar_container">
+              <img id="user_avatar" src="" alt="User Avatar" />
+            </div>
+          </div>
+
+          <h2 id="user_fullname" class="user_name">LOADING...</h2>
+          <p class="user_email" id="user_email"></p>
+
+          <div class="delete_section">
+            <div class="delete_warning">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <p>DANGER ZONE</p>
+            </div>
+            <p class="delete_description">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa
+              necessitatibus at reiciendis esse a inventore delectus quasi
+              velit, perferendis error alias eligendi placeat, numquam nihil?
+            </p>
+            <button type="button" id="delete_account_btn" class="delete_btn">
+              <i class="fa-solid fa-trash"></i> DELETE ACCOUNT
+            </button>
+          </div>
+        </aside>
+
+        <section class="identity_section">
+          <div class="section_header">
+            <i class="fa-solid fa-gear"></i>
+            <h3>IDENTITY INFORMATION</h3>
+          </div>
+
+          <form id="profile_form" class="profile_form">
+            <div class="form_row">
+              <div class="form_group">
+                <label>FIRST NAME</label>
+                <input type="text" id="firstName" name="firstName" readonly />
+              </div>
+              <div class="form_group">
+                <label>LAST NAME</label>
+                <input type="text" id="lastName" name="lastName" readonly />
+              </div>
+            </div>
+
+            <div class="form_row">
+              <div class="form_group">
+                <label>AGE</label>
+                <input type="number" id="age" name="age" readonly />
+              </div>
+              <div class="form_group">
+                <label>GENDER</label>
+                <select id="gender" name="gender" disabled>
+                  <option value="MALE">MALE</option>
+                  <option value="FEMALE">FEMALE</option>
+                  <option value="OTHER">OTHER</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form_group">
+              <label>ADDRESS</label>
+              <input type="text" id="address" name="address" readonly />
+            </div>
+
+            <div class="form_row">
+              <div class="form_group">
+                <label>PHONE NUMBER</label>
+                <input type="text" id="phone" name="phone" readonly />
+              </div>
+              <div class="form_group">
+                <label>ZIP CODE</label>
+                <input type="text" id="zipcode" name="zipcode" readonly />
+              </div>
+            </div>
+
+            <div class="form_group">
+              <label
+                ><i class="fa-solid fa-link"></i> AVATAR LINK (IMG URL)</label
+              >
+              <input type="text" id="avatar" name="avatar" readonly />
+            </div>
+
+            <button type="button" id="edit_btn" class="sync_btn">
+              <i class="fa-solid fa-pen"></i> ENABLE EDIT MODE
+            </button>
+            <button
+              type="submit"
+              id="save_btn"
+              class="sync_btn save_btn"
+              style="display: none"
+            >
+              <i class="fa-solid fa-floppy-disk"></i> SYNC CHANGES
+            </button>
+          </form>
+          <div class="msg"></div>
+        </section>
+
+        <section class="security_section">
+          <div class="section_header">
+            <i class="fa-solid fa-lock"></i>
+            <h3>SECURITY OVERRIDE</h3>
+          </div>
+
+          <form id="password_form" class="password_form">
+            <div class="form_row">
+              <div class="form_group">
+                <label>CURRENT SECURITY KEY</label>
+                <input
+                  type="password"
+                  id="old_password"
+                  name="old_password"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+              <div class="form_group">
+                <label>NEW SECURITY KEY</label>
+                <input
+                  type="password"
+                  id="new_password"
+                  name="new_password"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+            </div>
+
+            <button type="submit" class="security_btn">
+              <i class="fa-solid fa-key"></i> CHANGE PASSWORD
+            </button>
+            <div class="pass_msg"></div>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/profile.js"></script>
+  </body>
+</html>

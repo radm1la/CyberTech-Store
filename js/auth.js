@@ -5,6 +5,8 @@ btnAuth.addEventListener("click", () => {
   const userToken = Cookies.get("user");
   if (!userToken) {
     openAuth();
+  } else {
+    window.location.href = "/html/profile.html";
   }
 });
 
@@ -56,8 +58,10 @@ function checkForUser() {
         if (userData.verified) {
           const authForm = document.querySelector(".auth_form");
           if (authForm) authForm.remove();
-          btnAuth.disabled = true;
+
+          btnAuth.disabled = false;
           btnAuth.innerHTML = `<i class="fa-solid fa-user"></i> ${userData.firstName}`;
+          btnAuth.style.cursor = "pointer";
 
           if (!window.location.pathname.includes("cart.html")) {
             btnCart.disabled = false;
@@ -97,7 +101,10 @@ checkForUser();
 function handleSignOut() {
   Cookies.remove("user");
   Cookies.remove("userId");
-  if (window.location.pathname.includes("cart.html")) {
+  if (
+    window.location.pathname.includes("cart.html") ||
+    window.location.pathname.includes("profile.html")
+  ) {
     window.location.href = "../index.html";
   } else if (window.location.pathname.includes("details.html")) {
     location.reload();
@@ -379,11 +386,17 @@ function validateSignupInputs(formData) {
   const nameRegex = /^[A-Za-z]/;
 
   if (!formData.email || formData.email.trim() === "") {
-    return { valid: false, message: "EMAIL IS REQUIRED. EXAMPLE: JOHN.SMITH@EMAIL.COM" };
+    return {
+      valid: false,
+      message: "EMAIL IS REQUIRED. EXAMPLE: JOHN.SMITH@EMAIL.COM",
+    };
   }
 
   if (!emailRegex.test(formData.email)) {
-    return { valid: false, message: "INVALID EMAIL FORMAT. EXAMPLE: JOHN.SMITH@EMAIL.COM" };
+    return {
+      valid: false,
+      message: "INVALID EMAIL FORMAT. EXAMPLE: JOHN.SMITH@EMAIL.COM",
+    };
   }
 
   if (!formData.firstName || formData.firstName.trim() === "") {
@@ -416,15 +429,23 @@ function validateSignupInputs(formData) {
   }
 
   if (formData.avatar && formData.avatar.trim() !== "") {
-    const urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/i;
+    const urlRegex =
+      /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/i;
     const imageExtensionRegex = /\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?.*)?$/i;
-    
+
     if (!urlRegex.test(formData.avatar)) {
-      return { valid: false, message: "INVALID AVATAR URL. EXAMPLE: https://example.com/avatar.jpg" };
+      return {
+        valid: false,
+        message: "INVALID AVATAR URL. EXAMPLE: https://example.com/avatar.jpg",
+      };
     }
-    
+
     if (!imageExtensionRegex.test(formData.avatar)) {
-      return { valid: false, message: "AVATAR URL MUST END WITH IMAGE FORMAT (.jpg, .jpeg, .png, .gif, .webp, .svg)" };
+      return {
+        valid: false,
+        message:
+          "AVATAR URL MUST END WITH IMAGE FORMAT (.jpg, .jpeg, .png, .gif, .webp, .svg)",
+      };
     }
   }
 
