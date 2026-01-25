@@ -172,24 +172,7 @@ function fetchChanges() {
 }
 
 function validateProfileInputs(formData) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const nameRegex = /^[A-Za-z]/;
-
-  if (formData.email) {
-    if (!formData.email || formData.email.trim() === "") {
-      return {
-        valid: false,
-        message: "EMAIL IS REQUIRED. EXAMPLE: JOHN.SMITH@EMAIL.COM",
-      };
-    }
-
-    if (!emailRegex.test(formData.email)) {
-      return {
-        valid: false,
-        message: "INVALID EMAIL FORMAT. EXAMPLE: JOHN.SMITH@EMAIL.COM",
-      };
-    }
-  }
 
   if (!formData.firstName || formData.firstName.trim() === "") {
     return { valid: false, message: "FIRST NAME IS REQUIRED" };
