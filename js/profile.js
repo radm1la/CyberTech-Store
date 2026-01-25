@@ -151,7 +151,6 @@ function fetchChanges() {
   })
     .then((answ) => answ.json())
     .then((data) => {
-      console.log(data);
       getUser();
       originalUserData = { ...data };
       enableDisableEditing("disable");
