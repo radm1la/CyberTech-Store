@@ -298,15 +298,8 @@ passwordForm.addEventListener("submit", (e) => {
 
 function changePassword() {
   const formData = new FormData(passwordForm);
-  const oldPass= formData.get("old_password");
+  const oldPass = formData.get("old_password");
   const newPass = formData.get("new_password");
-
-  if (newPass.length < 6) {
-    passMsg.style.color = "#ef4444";
-    passMsg.textContent = "NEW PASSWORD MUST BE AT LEAST 6 CHARACTERS";
-    passMsg.style.display = "block";
-    return;
-  }
 
   fetch("https://api.everrest.educata.dev/auth/change_password", {
     method: "PATCH",
@@ -316,15 +309,42 @@ function changePassword() {
       Authorization: `Bearer ${Cookies.get("user")}`,
     },
     body: JSON.stringify({
-        oldPassword: oldPass,
-        newPassword: newPass
+      oldPassword: oldPass,
+      newPassword: newPass,
+    }),
+  })
+    .then((answ) => answ.json())
+    .then((data) => {
+      if (data.error) {
+        if (data.errorKeys[0] == "errors.password_too_short") {
+          passMsg.style.color = "#ef4444";
+          passMsg.textContent = "NEW PASSWORD MUST BE AT LEAST 6 CHARACTERS";
+          passMsg.style.display = "block";
+          setTimeout(() => {
+            editMsg.style.display = "none";
+          }, 2000);
+          return;
+        }
+        passMsg.style.color = "#ef4444";
+        passMsg.textContent = data.error.toUpperCase();
+        passMsg.style.display = "block";
+        setTimeout(() => {
+          passMsg.style.display = "none";
+        }, 2000);
+        return;
+      } else {
+        passMsg.style.color = "#10b981";
+        passMsg.textContent = "PASSWORD CHANGED SUCCESSFULLY";
+        passMsg.style.display = "block";
+
+        passwordForm.reset();
+
+        setTimeout(() => {
+          passMsg.style.display = "none";
+        }, 2000);
+      }
     })
-  }).then((answ)=> answ.json())
-  .then((data)=>{
-    console.log(data);
-    
-  })
-  .catch((err)=>{
-    console.log("Error changing password: ", err);
-  })
+    .catch((err) => {
+      console.log("Error: ", err);
+    });
 }
