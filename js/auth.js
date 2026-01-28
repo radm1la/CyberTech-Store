@@ -423,7 +423,7 @@ function validateSignupInputs(formData) {
   if (!formData.phone || !phoneRegex.test(formData.phone)) {
     return {
       valid: false,
-      message: "PHONE NUMBER MUST BE IN THE FORMAT +995599123456",
+      message: "PHONE NUMBER MUST BE IN THE FORMAT +995555555555",
     };
   }
 
