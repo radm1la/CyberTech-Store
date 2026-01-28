@@ -370,6 +370,15 @@ function handleSignup(e) {
 
 //!errors
 function validateLoginInputs(email, password) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    return {
+      valid: false,
+      message: "INVALID EMAIL FORMAT. EXAMPLE: JOHN.SMITH@EMAIL.COM",
+    };
+  }
+
   if (!email || !password) {
     return { valid: false, message: "PLEASE FILL IN ALL FIELDS" };
   }
