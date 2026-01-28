@@ -419,9 +419,12 @@ function validateSignupInputs(formData) {
     return { valid: false, message: "PLEASE ENTER A VALID AGE (13-120)" };
   }
 
-  const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+  const phoneRegex = /^\+995\d{9}$/;
   if (!formData.phone || !phoneRegex.test(formData.phone)) {
-    return { valid: false, message: "PLEASE ENTER A VALID PHONE NUMBER" };
+    return {
+      valid: false,
+      message: "PHONE NUMBER MUST BE IN THE FORMAT +995599123456",
+    };
   }
 
   if (!formData.password || formData.password.length < 6) {
