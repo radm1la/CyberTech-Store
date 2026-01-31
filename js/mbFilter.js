@@ -5,7 +5,7 @@ const closeFilter = document.querySelector(".fa-x");
 filterIcon.addEventListener("click", (e) => {
   e.stopPropagation();
   filterArea.classList.add("active_mb");
-  filterIcon.style.opacity = 0;
+  filterIcon.classList.remove("visible"); 
   closeFilter.style.display = "block";
 });
 
@@ -24,5 +24,6 @@ document.addEventListener("click", () => {
 
 function closeFilterPanel() {
   filterArea.classList.remove("active_mb");
-  filterIcon.style.opacity = 1;
+  filterIcon.classList.add("visible");
+  closeFilter.style.display = "none";
 }
