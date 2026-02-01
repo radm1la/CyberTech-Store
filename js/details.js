@@ -201,7 +201,6 @@ function showratingForm() {
       .then((pr) => {
         displayratings(pr.ratings);
         
-        // Update the rating button if needed
         let savedUserId = Cookies.get("userId");
         if (savedUserId && hasUserRated(pr.ratings, savedUserId)) {
           disableElem(ratingBtn);
