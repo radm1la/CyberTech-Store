@@ -1,3 +1,5 @@
+<img width="1291" height="1229" alt="image" src="https://github.com/user-attachments/assets/07acedc5-7d0c-4977-a6b7-71ee9e5bf4a7" />
+
 # CyberTech Store
 
 A futuristic cyberpunk-themed e-commerce platform for tech products featuring an immersive terminal-inspired interface.
