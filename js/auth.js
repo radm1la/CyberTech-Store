@@ -146,6 +146,7 @@ function showLogin() {
       <div class="input_area">
           <i class="fa-solid fa-lock"></i>
           <input type="password" id="login_password" placeholder="Password" name="password" />
+          <i class="fa-solid fa-eye authEye" id="seeLoginPass"></i>
       </div>
       <p id="recPass">FORGOT PASSWORD?</p>
 
@@ -163,7 +164,15 @@ function showLogin() {
   document.getElementById("loginForm").addEventListener("submit", handleLogin);
 
   document.getElementById("recPass").addEventListener("click", recoverPassword);
+
+  //show pass
+  const loginPassword = document.getElementById("login_password");
+  const seeLoginPass = document.getElementById("seeLoginPass");
+  seeLoginPass.addEventListener("click", () => {
+    togglePassword(loginPassword, seeLoginPass);
+  });
 }
+
 //!show sign up
 function showSignup() {
   const content = document.querySelector(".auth_content");
@@ -224,6 +233,7 @@ function showSignup() {
           <div class="input_area">
             <i class="fa-solid fa-lock"></i>
             <input type="text" id="signup_password" placeholder="PASSWORD" name="password" required/>
+             <i class="fa-solid fa-eye authEye" id="seeSignupPass"></i>
           </div>
         </div>
       </div>
@@ -242,6 +252,25 @@ function showSignup() {
   document
     .getElementById("signupForm")
     .addEventListener("submit", handleSignup);
+
+  //show pass
+  const signupPassword = document.getElementById("signup_password");
+  const seeSignupPass = document.getElementById("seeSignupPass");
+  seeSignupPass.addEventListener("click", () => {
+    togglePassword(signupPassword, seeSignupPass);
+  });
+}
+
+function togglePassword(input, icon) {
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+  } else {
+    input.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+  }
 }
 
 //!Login logic
@@ -358,10 +387,7 @@ function handlePasswordRec(e) {
   }
 
   if (!emailRegex.test(finalForm.email)) {
-    showAuthMessage(
-      `INVALID EMAIL FORMAT`,
-      "error",
-    );
+    showAuthMessage(`INVALID EMAIL FORMAT`, "error");
     return;
   }
 

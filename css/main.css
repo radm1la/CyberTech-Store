@@ -386,6 +386,16 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
 }
 
+.authEye{
+  margin-right: 10px;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+}
+
+.authEye:hover{
+  filter: brightness(1.5);
+}
+
 @media (max-width: 1441px) {
   body {
     padding-inline: 50px;

@@ -335,10 +335,12 @@ function changePassword() {
 function togglePassword(input, icon) {
   if (input.type === "password") {
     input.type = "text";
-    icon.style.color = "#22d3ee";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
   } else {
     input.type = "password";
-    icon.style.color = "#64748b";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
   }
 }
 

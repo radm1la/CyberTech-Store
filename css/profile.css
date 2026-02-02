@@ -331,7 +331,7 @@
   position: relative;
 }
 
-.fa-eye{
+.fa-eye,.fa-eye-slash{
   position: absolute;
   bottom: 14px;
   right: 10px;
@@ -340,7 +340,7 @@
   cursor: pointer;
 }
 
-.fa-eye:hover{
+.fa-eye:hover.fa-eye-slash:hover{
   color: var(--nb);
 }
 
