@@ -220,7 +220,7 @@ input:-webkit-autofill:active {
 }
 
 form #loginBtn,
-#signupBtn {
+#signupBtn,#recPassBtn {
   width: 100%;
   margin-top: 20px;
   font-size: 18px;
@@ -231,20 +231,32 @@ form #loginBtn,
 }
 
 #loginBtn:hover,
-#signupBtn:hover {
+#signupBtn:hover,
+#recPassBtn:hover {
   filter: brightness(0.8);
 }
 
 #goSignup,
-#goLogin {
+#goLogin,
+#backToLogin {
   text-decoration: underline;
   cursor: pointer;
   transition: all 0.2s ease-out;
 }
 
 #goSignup:hover,
-#goLogin:hover {
+#goLogin:hover,
+#backToLogin:hover {
   filter: brightness(2);
+}
+
+#recPass{
+  text-decoration: underline;
+  transition: all 0.2s ease-out;
+}
+#recPass:hover{
+  filter: brightness(2);
+  cursor: pointer;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -297,11 +309,15 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 16px;
 }
 
-#loginForm {
+#loginForm,#passRecForm {
   width: 370px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+#passRecForm button{
+ margin-top: 0;
 }
 
 #signupForm {

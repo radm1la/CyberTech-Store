@@ -147,6 +147,7 @@ function showLogin() {
           <i class="fa-solid fa-lock"></i>
           <input type="password" id="login_password" placeholder="Password" name="password" />
       </div>
+      <p id="recPass">FORGOT PASSWORD?</p>
 
       <button type="submit" id="loginBtn">LOGIN</button>
     </form>
@@ -160,6 +161,8 @@ function showLogin() {
   document.getElementById("goSignup").onclick = showSignup;
 
   document.getElementById("loginForm").addEventListener("submit", handleLogin);
+
+  document.getElementById("recPass").addEventListener("click", recoverPassword);
 }
 //!show sign up
 function showSignup() {
@@ -306,6 +309,83 @@ function handleLogin(e) {
       console.error(err);
     });
 }
+
+//!recover password
+function recoverPassword() {
+  const authContent = document.querySelector(".auth_content");
+
+  authContent.innerHTML = `
+    <h2>RECOVER PASSWORD</h2>
+    <p>ENTER YOUR EMAIL</p>
+    <p class="auth_error" id="loginError" style="display:none"></p>
+
+    <form id="passRecForm">
+      <div class="input_area">
+          <i class="fa-solid fa-envelope"></i>
+          <input type="email" id="login_email" placeholder="Email" name="email" />
+      </div>
+      <p id="backToLogin">LOG IN</p>
+
+      <button type="submit" id="recPassBtn">SEND EMAIL</button>
+    </form>
+
+    <p class="switch">
+      DON'T HAVE AN ACCOUNT?
+      <span id="goSignup">SIGN UP</span>
+    </p>
+  `;
+
+  document.getElementById("backToLogin").addEventListener("click", showLogin);
+
+  document.getElementById("goSignup").addEventListener("click", showSignup);
+
+  document
+    .getElementById("recPassBtn")
+    .addEventListener("click", handlePasswordRec);
+}
+
+function handlePasswordRec(e) {
+  e.preventDefault();
+  const form = document.getElementById("passRecForm");
+  let formInfo = new FormData(form);
+  let finalForm = Object.fromEntries(formInfo);
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!finalForm.email || finalForm.email.trim() === "") {
+    showAuthMessage("EMAIL IS REQUIRED", "error");
+    return;
+  }
+
+  if (!emailRegex.test(finalForm.email)) {
+    showAuthMessage(
+      `INVALID EMAIL FORMAT`,
+      "error",
+    );
+    return;
+  }
+
+  const errorBox = document.querySelector(".auth_error");
+
+  fetch("https://api.everrest.educata.dev/auth/recovery", {
+    method: "POST",
+    headers: {
+      accept: "*/*",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(finalForm),
+  })
+    .then((answ) => answ.json())
+    .then((data) => {
+      console.log(data);
+      showAuthMessage(data.message, "warning");
+
+      setTimeout(() => {
+        showLogin();
+      }, 4000);
+    });
+}
+
 //!signup logic
 function handleSignup(e) {
   e.preventDefault();
