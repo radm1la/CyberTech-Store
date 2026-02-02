@@ -463,8 +463,8 @@ function validateLoginInputs(email, password) {
     return { valid: false, message: "PLEASE FILL IN ALL FIELDS" };
   }
 
-  if (password.length < 6) {
-    return { valid: false, message: "PASSWORD MUST BE AT LEAST 6 CHARACTERS" };
+  if (password.length < 8) {
+    return { valid: false, message: "PASSWORD MUST BE AT LEAST 8 CHARACTERS" };
   }
 
   return { valid: true };
@@ -516,8 +516,8 @@ function validateSignupInputs(formData) {
     };
   }
 
-  if (!formData.password || formData.password.length < 6) {
-    return { valid: false, message: "PASSWORD MUST BE AT LEAST 6 CHARACTERS" };
+  if (!formData.password || formData.password.length < 8) {
+    return { valid: false, message: "PASSWORD MUST BE AT LEAST 8 CHARACTERS" };
   }
 
   if (formData.avatar && formData.avatar.trim() !== "") {

@@ -300,7 +300,7 @@ function changePassword() {
       if (data.error) {
         if (data.errorKeys[0] == "errors.password_too_short") {
           passMsg.style.color = "#ef4444";
-          passMsg.textContent = "NEW PASSWORD MUST BE AT LEAST 6 CHARACTERS";
+          passMsg.textContent = "NEW PASSWORD MUST BE AT LEAST 8 CHARACTERS";
           passMsg.style.display = "block";
           setTimeout(() => {
             editMsg.style.display = "none";
