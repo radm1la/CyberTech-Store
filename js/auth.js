@@ -316,7 +316,7 @@ function recoverPassword() {
 
   authContent.innerHTML = `
     <h2>RECOVER PASSWORD</h2>
-    <p>ENTER YOUR EMAIL</p>
+    <p><i class="fa-solid fa-circle-exclamation"></i> NEW PASSWORD WILL BE SENT TO YOUR EMAIL</p>
     <p class="auth_error" id="loginError" style="display:none"></p>
 
     <form id="passRecForm">
