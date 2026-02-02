@@ -330,3 +330,28 @@ function changePassword() {
       console.log("Error: ", err);
     });
 }
+
+//make password visible
+function togglePassword(input, icon) {
+  if (input.type === "password") {
+    input.type = "text";
+    icon.style.color = "#22d3ee";
+  } else {
+    input.type = "password";
+    icon.style.color = "#64748b";
+  }
+}
+
+const oldPassword = document.getElementById("old_password");
+const newPassword = document.getElementById("new_password");
+
+const seeOldPass = document.getElementById("seeOldPass");
+const seeNewPass = document.getElementById("seeNewPass");
+
+seeOldPass.addEventListener("click", () =>
+  togglePassword(oldPassword, seeOldPass)
+);
+
+seeNewPass.addEventListener("click", () =>
+  togglePassword(newPassword, seeNewPass)
+);

@@ -327,6 +327,23 @@
   margin: 0;
 }
 
+.form_group{
+  position: relative;
+}
+
+.fa-eye{
+  position: absolute;
+  bottom: 14px;
+  right: 10px;
+  color: var(--lt);
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+}
+
+.fa-eye:hover{
+  color: var(--nb);
+}
+
 @media (max-width: 768px) {
   .form_row {
     grid-template-columns: 1fr;
